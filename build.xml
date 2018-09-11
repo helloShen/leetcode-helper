@@ -93,25 +93,24 @@
     <!-- ================================= targets to deploy helper ================================== -->
 
     <!-- deploy properties -->
-    <property name="leetcode" value="../java"/>
-    <property name="leetcode.bin" value="${leetcode}/bin"/>
-    <property name="leetcode.lib" value="${leetcode}/lib"/>
-    <property name="leetcode.tpl" value="${leetcode}/src/main/resources"/>
+    <property name="deploy.bin" value="${deploy.root}/bin"/>
+    <property name="deploy.lib" value="${deploy.root}/lib"/>
+    <property name="deploy.tpl" value="${deploy.root}/src/main/resources"/>
     <!-- @CONFIRMED -->
     <target name="clean.deploy" description="Clean last deployment.">
         <echo>Uninstalling helper from leetcode java root ... </echo>
         <delete includeemptydirs="true" failonerror="false">
-            <fileset dir="${leetcode}">
+            <fileset dir="${deploy.root}">
                 <include name="build.properties"/>
                 <include name="build.xml"/>
             </fileset>
-            <fileset dir="${leetcode.bin}">
+            <fileset dir="${deploy.bin}">
                 <include name="**/helper"/>
             </fileset>
-            <fileset dir="${leetcode.lib}">
+            <fileset dir="${deploy.lib}">
                 <include name="*.jar"/>
             </fileset>
-            <fileset dir="${leetcode.tpl}">
+            <fileset dir="${deploy.tpl}">
                 <include name="*.vm"/>
             </fileset>
         </delete>
@@ -120,29 +119,29 @@
     <target name="deploy" depends="clean.deploy, clean, compile.src"
         description="Deploy helper generator to leetcode java repository.">
         <echo>Installing helper to leetcode java root.</echo>
-        <mkdir dir="${leetcode}"/>
-        <copy todir="${leetcode}"> <!-- ant will overwrite the existing file -->
+        <mkdir dir="${deploy.root}"/>
+        <copy todir="${deploy.root}"> <!-- ant will overwrite the existing file -->
             <fileset dir=".">
                 <include name="build-release.properties"/>
                 <include name="build-release.xml"/>
             </fileset>
             <globmapper from="build-release.*" to="build.*"/>
         </copy>
-        <mkdir dir="${leetcode.bin}"/>
-        <copy todir="${leetcode.bin}">
+        <mkdir dir="${deploy.bin}"/>
+        <copy todir="${deploy.bin}">
             <fileset dir="${bin.dir}">
                 <include name="**/helper/*.class"/>
             </fileset>
         </copy>
-        <mkdir dir="${leetcode.lib}"/>
-        <copy todir="${leetcode.lib}">
+        <mkdir dir="${deploy.lib}"/>
+        <copy todir="${deploy.lib}">
             <fileset dir="${lib.dir}">
                 <include name="*.jar"/>
                 <exclude name="gson-*.jar"/>
             </fileset>
         </copy>
-        <mkdir dir="${leetcode.tpl}"/>
-        <copy todir="${leetcode.tpl}">
+        <mkdir dir="${deploy.tpl}"/>
+        <copy todir="${deploy.tpl}">
             <fileset dir="${tpl.dir}">
                 <include name="*.vm"/>
             </fileset>

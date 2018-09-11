@@ -7,7 +7,6 @@
 
     <!-- entry points -->
     <property name="builder.pck" value="com.ciaoshen.leetcode.helper"/>
-    <property name="junit.entry" value="${builder.pck}.TestRunner"/>
     <property name="main.entry" value="${builder.pck}.ProblemBuilder"/>
 
 
