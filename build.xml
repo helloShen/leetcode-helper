@@ -33,7 +33,7 @@
         <echo>Compiling .java source file under ${main.dir} ... </echo>
         <mkdir dir="${bin.dir}"/> <!-- ant will not re-create an existing dir -->
         <javac destdir="${bin.dir}" srcdir="${main.dir}" debug="on" includeantruntime="false">
-            <include name="**/helper/*.java"/>
+            <include name="**/*.java"/>
             <classpath refid="classpath"/>
         </javac>
     </target>
@@ -42,7 +42,7 @@
         <echo>Compiling .java source file under ${test.dir} ... </echo>
         <mkdir dir="${bin.dir}"/>
         <javac destdir="${bin.dir}" srcdir="${test.dir}" debug="on" includeantruntime="false">
-            <include name="**/helper/*.java"/>
+            <include name="**/*.java"/>
             <classpath refid="classpath"/>
         </javac>
     </target>
@@ -82,9 +82,11 @@
             <fileset dir="${bin.dir}"/>
             <fileset dir="${main.dir}">
                 <exclude name="**/helper/*.java"/>
+                <exclude name="**/util/*.java"/>
             </fileset>
             <fileset dir="${test.dir}">
                 <exclude name="**/helper/*.java"/>
+                <exclude name="**/util/*.java"/>
             </fileset>
         </delete>
     </target>
@@ -106,6 +108,7 @@
             </fileset>
             <fileset dir="${deploy.bin}">
                 <include name="**/helper"/>
+                <include name="**/util"/>
             </fileset>
             <fileset dir="${deploy.lib}">
                 <include name="*.jar"/>
@@ -131,6 +134,7 @@
         <copy todir="${deploy.bin}">
             <fileset dir="${bin.dir}">
                 <include name="**/helper/*.class"/>
+                <include name="**/util/*.class"/>
             </fileset>
         </copy>
         <mkdir dir="${deploy.lib}"/>
