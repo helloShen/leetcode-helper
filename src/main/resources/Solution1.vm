@@ -1,0 +1,10 @@
+/**
+ * Leetcode - ${problem}
+ */
+package ${pck}.${problem};
+import java.util.*;
+import ${util}.*;
+
+class Solution1 implements Solution {
+
+}

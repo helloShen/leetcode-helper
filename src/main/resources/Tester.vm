@@ -1,0 +1,28 @@
+/**
+ * Leetcode - ${problem}
+ */
+package ${pck}.${problem};
+
+/** basic util */
+import java.util.*;
+import ${util}.*;
+/** JUnit */
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+/** slf4j */
+import org.slf4j.impl.StaticLoggerBinder;
+import org.slf4j.LoggerFactory;
+/** commons-lang3 */
+import org.apache.commons.lang3.StringUtils;
+
+public class Tester {
+
+    public Tester() {
+        solution = new Solution1();
+    }
+
+    /**==================== 【 private 】 =========================*/
+    private Solution solution;
+
+}

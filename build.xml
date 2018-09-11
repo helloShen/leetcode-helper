@@ -1,0 +1,213 @@
+<?xml version="1.0"?>
+<project name="com.ciaoshen.leetcode.helper" basedir="." default="generate">
+
+    <!-- ================================= properties ================================== -->
+    <!-- read properties from a existing file -->
+    <property file="build.properties"/>
+
+    <!-- entry points -->
+    <property name="builder.pck" value="com.ciaoshen.leetcode.helper"/>
+    <property name="junit.entry" value="${builder.pck}.TestRunner"/>
+    <property name="main.entry" value="${builder.pck}.ProblemBuilder"/>
+
+
+    <!-- ================================= classpath ================================== -->
+
+    <!-- build classpath collection with a path-like structure -->
+    <path id="classpath">
+        <pathelement path="${bin.dir}"/>
+        <fileset dir="${lib.dir}">
+            <include name="velocity-engine-core-2.0.jar"/>
+            <include name="junit-4.10.jar"/>
+            <include name="slf4j-api-1.7.25.jar"/>
+            <include name="slf4j-simple-1.7.25.jar"/>
+            <include name="commons-lang3-3.8.jar"/>
+        </fileset>
+    </path>
+
+
+    <!-- ================================= targets to test helper ================================== -->
+
+    <!-- @CONFIRMED -->
+    <target name="compile.src" description="Compile helper source codes.">
+        <echo>Compiling .java source file under ${main.dir} ... </echo>
+        <mkdir dir="${bin.dir}"/> <!-- ant will not re-create an existing dir -->
+        <javac destdir="${bin.dir}" srcdir="${main.dir}" debug="on" includeantruntime="false">
+            <include name="**/helper/*.java"/>
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+    <!-- @CONFIRMED -->
+    <target name="compile.junit" description="Compile helper junit test source codes.">
+        <echo>Compiling .java source file under ${test.dir} ... </echo>
+        <mkdir dir="${bin.dir}"/>
+        <javac destdir="${bin.dir}" srcdir="${test.dir}" debug="on" includeantruntime="false">
+            <include name="**/helper/*.java"/>
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+    <!-- @CONFIRMED -->
+    <target name="junit" depends="compile.src,compile.junit"
+        description="Compile and run helper JUnit test.">
+        <echo>Running JUnit Test ... </echo>
+        <java classname="${junit.entry}">
+            <classpath refid="classpath"/>
+        </java>
+    </target>
+    <!-- @CONFIRMED -->
+    <target name="run" depends="compile.src"
+        description="Compile and run ProblemBuilder main() method">
+        <echo>Running ProblemBuilder from main() method!</echo>
+        <java classname="${main.entry}">
+            <arg value="${tpl.dir}"/>
+            <arg value="${main.dir}"/>
+            <arg value="${test.dir}"/>
+            <arg value="${pck}"/>
+            <arg value="${problem}"/>
+            <arg value="${util}"/>
+            <classpath refid="classpath"/>
+        </java>
+    </target>
+    <!-- @CONFIRMED -->
+    <target name="clean" description="Clean all generated files of helper project.">
+        <input message="Delete all generated files (y/n)?"
+               validargs="y,n"
+               addproperty="do.delete"/>
+        <condition property="do.abort">
+          <equals arg1="n" arg2="${do.delete}"/>
+        </condition>
+        <fail if="do.abort">Delete operation aborted by user.</fail>
+        <echo>Cleaning all generated .class file and .java skeleton!</echo>
+        <delete includeemptydirs="true">
+            <fileset dir="${bin.dir}"/>
+            <fileset dir="${main.dir}">
+                <exclude name="**/helper/*.java"/>
+            </fileset>
+            <fileset dir="${test.dir}">
+                <exclude name="**/helper/*.java"/>
+            </fileset>
+        </delete>
+    </target>
+
+
+    <!-- ================================= targets to deploy helper ================================== -->
+
+    <!-- deploy properties -->
+    <property name="leetcode" value="../java"/>
+    <property name="leetcode.bin" value="${leetcode}/bin"/>
+    <property name="leetcode.lib" value="${leetcode}/lib"/>
+    <property name="leetcode.tpl" value="${leetcode}/src/main/resources"/>
+    <!-- @CONFIRMED -->
+    <target name="clean.deploy" description="Clean last deployment.">
+        <echo>Uninstalling helper from leetcode java root ... </echo>
+        <delete includeemptydirs="true" failonerror="false">
+            <fileset dir="${leetcode}">
+                <include name="build.properties"/>
+                <include name="build.xml"/>
+            </fileset>
+            <fileset dir="${leetcode.bin}">
+                <include name="**/helper"/>
+            </fileset>
+            <fileset dir="${leetcode.lib}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${leetcode.tpl}">
+                <include name="*.vm"/>
+            </fileset>
+        </delete>
+    </target>
+    <!-- @CONFIRMED -->
+    <target name="deploy" depends="clean.deploy, clean, compile.src"
+        description="Deploy helper generator to leetcode java repository.">
+        <echo>Installing helper to leetcode java root.</echo>
+        <mkdir dir="${leetcode}"/>
+        <copy todir="${leetcode}"> <!-- ant will overwrite the existing file -->
+            <fileset dir=".">
+                <include name="build-release.properties"/>
+                <include name="build-release.xml"/>
+            </fileset>
+            <globmapper from="build-release.*" to="build.*"/>
+        </copy>
+        <mkdir dir="${leetcode.bin}"/>
+        <copy todir="${leetcode.bin}">
+            <fileset dir="${bin.dir}">
+                <include name="**/helper/*.class"/>
+            </fileset>
+        </copy>
+        <mkdir dir="${leetcode.lib}"/>
+        <copy todir="${leetcode.lib}">
+            <fileset dir="${lib.dir}">
+                <include name="*.jar"/>
+                <exclude name="gson-*.jar"/>
+            </fileset>
+        </copy>
+        <mkdir dir="${leetcode.tpl}"/>
+        <copy todir="${leetcode.tpl}">
+            <fileset dir="${tpl.dir}">
+                <include name="*.vm"/>
+            </fileset>
+        </copy>
+    </target>
+
+
+    <!-- ================================= release version ================================== -->
+
+    <!--    @CONFIRMED
+            @RELEASE -->
+    <target name="generate.problem" description="Generate project skeleton for a problem.">
+        <java classname="${main.entry}">
+            <arg value="${tpl.dir}"/>
+            <arg value="${main.dir}"/>
+            <arg value="${test.dir}"/>
+            <arg value="${pck}"/>
+            <arg value="${problem}"/>
+            <arg value="${util}"/>
+            <classpath refid="classpath"/>
+        </java>
+        <echo>Problem ${problem} generated! </echo>
+    </target>
+    <!--    @CONFIRMED
+            @RELEASE-->
+    <target name="compile.problem" description="Compile the generated problem.">
+        <echo>Compile source code for problem ${problem} ... </echo>
+        <mkdir dir="${bin.dir}"/>
+        <javac destdir="${bin.dir}" srcdir="${main.dir}" debug="on" includeantruntime="false">
+            <include name="**/${problem}/*.java"/>
+            <classpath refid="classpath"/>
+        </javac>
+        <javac destdir="${bin.dir}" srcdir="${test.dir}" debug="on" includeantruntime="false">
+            <include name="**/${problem}/*.java"/>
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+    <!--    @CONFIRMED
+            @RELEASE -->
+    <target name="test.problem" description="Test a specific generated problem.">
+        <echo>Test generated problem ${problem} ... </echo>
+        <java classname="${pck}.${problem}.TesterRunner">
+            <classpath refid="classpath"/>
+        </java>
+    </target>
+    <!--    @CONFIRMED
+            @RELEASE -->
+    <target name="clean.problem" description="Clean everything about a specific problem.">
+        <input message="Delete all source code of problem ${problem} (y/n)?"
+               validargs="y,n"
+               addproperty="do.delete"/>
+        <condition property="do.abort">
+          <equals arg1="n" arg2="${do.delete}"/>
+        </condition>
+        <fail if="do.abort">Delete operation aborted by user.</fail>
+        <delete includeemptydirs="true">
+            <fileset dir="${bin.dir}">
+                <include name="**/${problem}"/>
+            </fileset>
+            <fileset dir="${main.dir}">
+                <include name="**/${problem}/"/>
+            </fileset>
+            <fileset dir="${test.dir}">
+                <include name="**/${problem}/"/>
+            </fileset>
+        </delete>
+    </target>
+</project>

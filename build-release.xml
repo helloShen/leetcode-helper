@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<project name="com.ciaoshen.leetcode.helper" basedir="." default="generate">
+
+    <!-- ================================= properties ================================== -->
+    <!-- read properties from a existing file -->
+    <property file="build.properties"/>
+
+    <!-- entry points -->
+    <property name="builder.pck" value="com.ciaoshen.leetcode.helper"/>
+    <property name="junit.entry" value="${builder.pck}.TestRunner"/>
+    <property name="main.entry" value="${builder.pck}.ProblemBuilder"/>
+
+
+    <!-- ================================= classpath ================================== -->
+
+    <!-- build classpath collection with a path-like structure -->
+    <path id="classpath">
+        <pathelement path="${bin.dir}"/>
+        <fileset dir="${lib.dir}">
+            <include name="velocity-engine-core-2.0.jar"/>
+            <include name="junit-4.10.jar"/>
+            <include name="slf4j-api-1.7.25.jar"/>
+            <include name="slf4j-simple-1.7.25.jar"/>
+            <include name="commons-lang3-3.8.jar"/>
+        </fileset>
+    </path>
+
+    <!-- ================================= targets ================================== -->
+    <!--    @CONFIRMED
+            @RELEASE -->
+    <target name="generate" description="Generate project skeleton for a problem.">
+        <java classname="${main.entry}">
+            <arg value="${tpl.dir}"/>
+            <arg value="${main.dir}"/>
+            <arg value="${test.dir}"/>
+            <arg value="${pck}"/>
+            <arg value="${problem}"/>
+            <arg value="${util}"/>
+            <classpath refid="classpath"/>
+        </java>
+        <echo>Problem ${problem} generated! </echo>
+    </target>
+    <!--    @CONFIRMED
+            @RELEASE-->
+    <target name="compile" description="Compile the generated problem.">
+        <echo>Compile source code for problem ${problem} ... </echo>
+        <mkdir dir="${bin.dir}"/>
+        <javac destdir="${bin.dir}" srcdir="${main.dir}" debug="on" includeantruntime="false">
+            <include name="**/${problem}/*.java"/>
+            <classpath refid="classpath"/>
+        </javac>
+        <javac destdir="${bin.dir}" srcdir="${test.dir}" debug="on" includeantruntime="false">
+            <include name="**/${problem}/*.java"/>
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+    <!--    @CONFIRMED
+            @RELEASE -->
+    <target name="test" description="Test a specific generated problem.">
+        <echo>Test generated problem ${problem} ... </echo>
+        <java classname="${pck}.${problem}.TesterRunner">
+            <classpath refid="classpath"/>
+        </java>
+    </target>
+    <!--    @CONFIRMED
+            @RELEASE -->
+    <target name="clean" description="Clean everything about a specific problem.">
+        <input message="Delete all source code of problem ${problem} (y/n)?"
+               validargs="y,n"
+               addproperty="do.delete"/>
+        <condition property="do.abort">
+          <equals arg1="n" arg2="${do.delete}"/>
+        </condition>
+        <fail if="do.abort">Delete operation aborted by user.</fail>
+        <delete includeemptydirs="true">
+            <fileset dir="${bin.dir}">
+                <include name="**/${problem}"/>
+            </fileset>
+            <fileset dir="${main.dir}">
+                <include name="**/${problem}/"/>
+            </fileset>
+            <fileset dir="${test.dir}">
+                <include name="**/${problem}/"/>
+            </fileset>
+        </delete>
+    </target>
+</project>
