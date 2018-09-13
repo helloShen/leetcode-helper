@@ -12,36 +12,19 @@
 
 
     <!-- ================================= classpath ================================== -->
-
-    <!-- build classpath collection with a path-like structure -->
-    <path id="classpath">
+    <!-- @CONFIRMED -->
+    <path id="classpath" description="Develop Environment.">
         <pathelement path="${bin.dir}"/>
         <fileset dir="${lib.dir}">
-            <include name="velocity-engine-core-2.0.jar"/>
-            <include name="junit-4.10.jar"/>
-            <include name="slf4j-api-1.7.25.jar"/>
-            <include name="slf4j-simple-1.7.25.jar"/>
-            <include name="commons-lang3-3.8.jar"/>
-            <include name="java-hamcrest-2.0.0.0.jar"/>
+            <include name="*.jar"/>
+            <exclude name="gson-2.8.5.jar"/>
+            <exclude name="leetcode-helper.jar"/>
         </fileset>
     </path>
-
-    <!-- use only the single jar to release -->
-    <path id="single.jar">
-        <fileset dir="${bin.dir}">
-            <exclude name="com/ciaoshen/leetcode/helper/"/>
-            <exclude name="com/ciaoshen/leetcode/util/"/>
-        </fileset>
-        <fileset dir="${lib.dir}">
-            <include name="leetcode-helper.jar"/>
-            <exclude name="velocity-engine-core-2.0.jar"/>
-            <exclude name="junit-4.10.jar"/>
-            <exclude name="slf4j-api-1.7.25.jar"/>
-            <exclude name="slf4j-simple-1.7.25.jar"/>
-            <exclude name="commons-lang3-3.8.jar"/>
-            <exclude name="java-hamcrest-2.0.0.0.jar"/>
-            <exclude name="gson-2.8.5"/>
-        </fileset>
+    <!-- @CONFIRMED -->
+    <path id="single.jar" description="Release a single jar.">
+        <pathelement path="${bin.dir}"/>
+        <pathelement path="${lib.dir}/leetcode-helper.jar/"/>
     </path>
 
 
@@ -72,9 +55,10 @@
         <java classname="${junit.entry}">
             <classpath refid="classpath"/>
         </java>
+        <antcall target="clean"/>
     </target>
     <!-- @CONFIRMED -->
-    <target name="run" depends="compile.src"
+    <target name="test" depends="clean, compile.src"
         description="Compile and run ProblemBuilder main() method">
         <echo>Running ProblemBuilder from main() method!</echo>
         <java classname="${main.entry}">
@@ -86,6 +70,7 @@
             <arg value="${util}"/>
             <classpath refid="classpath"/>
         </java>
+        <antcall target="clean"/>
     </target>
     <!-- @CONFIRMED -->
     <target name="clean" description="Clean all generated files of helper project.">
@@ -98,17 +83,14 @@
         <fail if="do.abort">Delete operation aborted by user.</fail>
         <echo>Cleaning all generated .class file and .java skeleton!</echo>
         <delete includeemptydirs="true">
-            <fileset dir="${bin.dir}">
-                <include name="com/ciaoshen/leetcode/helper/"/> <!-- must keep last slash -->
-                <include name="com/ciaoshen/leetcode/util/"/>  <!-- must keep last slash -->
-            </fileset>
+            <fileset dir="${bin.dir}"/>
             <fileset dir="${main.dir}">
-                <exclude name="com/ciaoshen/leetcode/helper/*.java"/>
-                <exclude name="com/ciaoshen/leetcode/util/*.java"/>
+                <exclude name="com/ciaoshen/leetcode/helper/"/>
+                <exclude name="com/ciaoshen/leetcode/util/"/>
             </fileset>
             <fileset dir="${test.dir}">
-                <exclude name="com/ciaoshen/leetcode/helper/*.java"/>
-                <exclude name="com/ciaoshen/leetcode/util/*.java"/>
+                <exclude name="com/ciaoshen/leetcode/helper/"/>
+                <exclude name="com/ciaoshen/leetcode/util/"/>
             </fileset>
         </delete>
     </target>
@@ -120,32 +102,34 @@
     <property name="deploy.bin" value="${deploy.root}/bin"/>
     <property name="deploy.lib" value="${deploy.root}/lib"/>
     <property name="deploy.tpl" value="${deploy.root}/src/main/resources"/>
+    <property name="deploy.name" value="leetcode-helper.jar"/>
 
     <!-- @CONFIRMED -->
-    <target name="clean.jar" description="Delete my leetcode-helper jar.">
-        <delete failonerror="false">
-            <fileset dir="${lib.dir}">
-                 <include name="leetcode-helper.jar"/>
-             </fileset>
-         </delete>
-         <echo>lib/leetcode-helper.jar deleted!</echo>
+    <target name="clean.jar" description="Delete my leetcode-helper.jar.">
+        <delete file="${lib.dir}/${deploy.name}" failonerror="false"/>
+        <echo>lib/leetcode-helper.jar deleted!</echo>
     </target>
     <!-- @CONFIRMED -->
     <target name="jar" depends="clean.jar, clean, compile.src"
-        description="Compress all libraries to a single jar file leetcode-helper.">
+        description="Compress all libraries to a single jar file leetcode-helper.jar.">
         <mkdir dir="${lib.dir}"/>
-        <jar destfile="${lib.dir}/leetcode-helper.jar">
+        <jar destfile="${lib.dir}/${deploy.name}">
             <fileset dir="${bin.dir}">
                  <include name="com/ciaoshen/leetcode/helper/*.class"/>
                  <include name="com/ciaoshen/leetcode/util/*.class"/>
             </fileset>
             <archives>
                <zips>
-                   <fileset dir="${lib.dir}" includes="**/*.jar"/>
+                   <fileset dir="${lib.dir}">
+                       <include name="**/*.jar"/>
+                       <exclude name="gson-2.8.5.jar"/>
+                       <exclude name="${deploy.name}"/>
+                   </fileset>
                </zips>
             </archives>
         </jar>
-         <echo>lib/leetcode-helper.jar generated!</echo>
+        <echo>lib/leetcode-helper.jar generated!</echo>
+        <antcall target="clean"/>
     </target>
     <!-- @CONFIRMED -->
     <target name="test.jar" depends="jar"
@@ -160,20 +144,20 @@
             <arg value="${util}"/>
             <classpath refid="single.jar"/>
         </java>
+        <antcall target="clean.jar"/>
     </target>
     <!-- @CONFIRMED -->
     <target name="clean.deploy" description="Clean last deployment.">
-        <echo>Uninstalling helper from leetcode java root ... </echo>
+        <echo>Uninstalling ${deploy.name} from leetcode java root ... </echo>
         <delete includeemptydirs="true" failonerror="false">
             <fileset dir="${deploy.root}">
                 <include name="build.properties"/>
                 <include name="build.xml"/>
             </fileset>
-            <fileset dir="${deploy.lib}">
-                <include name="leetcode-helper.jar"/> <!-- one single jar -->
-            </fileset>
+            <file name="${deploy.lib}/${deploy.name}"/>
             <fileset dir="${deploy.tpl}">
                 <include name="*.vm"/>
+                <include name="*.properties"/>
             </fileset>
         </delete>
     </target>
@@ -190,17 +174,15 @@
             <globmapper from="build-release.*" to="build.*"/>
         </copy>
         <mkdir dir="${deploy.lib}"/>
-        <copy todir="${deploy.lib}">
-            <fileset dir="${lib.dir}">
-                <include name="leetcode-helper.jar"/> <!-- deploy the single jar -->
-            </fileset>
-        </copy>
+        <copy file="${lib.dir}/${deploy.name}" todir="${deploy.lib}"/>
         <mkdir dir="${deploy.tpl}"/>
         <copy todir="${deploy.tpl}">
             <fileset dir="${tpl.dir}">
                 <include name="*.vm"/>
+                <include name="*.properties"/>
             </fileset>
         </copy>
+        <antcall target="clean.jar"/>
     </target>
 
 
@@ -209,11 +191,12 @@
     <property name="release.dir" value="release"/>
     <property name="release.lib" value="${release.dir}/lib"/>
     <property name="release.tpl" value="${release.dir}/src/main/resources"/>
+    <property name="release.name" value="leetcode-helper.zip"/>
     <!-- @CONFIRMED -->
     <target name="clean.release" description="Clean last release.">
         <echo>Delete the compressed zip file.</echo>
         <delete includeemptydirs="true" failonerror="false">
-            <fileset dir="${release.dir}/"/>
+            <fileset dir="${release.dir}"/>
         </delete>
     </target>
     <!-- @CONFIRMED -->
@@ -229,29 +212,26 @@
             <globmapper from="build-release.*" to="build.*"/>
         </copy>
         <mkdir dir="${release.lib}"/>
-        <copy todir="${release.lib}">
-            <fileset dir="${lib.dir}">
-                <include name="leetcode-helper.jar"/>
-            </fileset>
-        </copy>
+        <copy file="${lib.dir}/${deploy.name}" todir="${release.lib}"/>
         <mkdir dir="${release.tpl}"/>
         <copy todir="${release.tpl}">
             <fileset dir="${tpl.dir}">
                 <include name="*.vm"/>
+                <include name="*.properties"/>
             </fileset>
         </copy>
-        <zip destfile="${release.dir}/leetcode-helper.zip" update="true">
-            <fileset dir="${release.dir}">
-                <include name="build.xml"/>
-                <include name="build.properties"/>
-            </fileset>
-            <fileset dir="${release.lib}">
-                <include name="leetcode-helper.jar"/>
-            </fileset>
-            <fileset dir="${release.tpl}">
-                <include name="*.vm"/>
-            </fileset>
+        <zip destfile="${release.dir}/${release.name}" update="true">
+            <zipfileset dir="${release.dir}" prefix=""/>
+            <zipfileset dir="${release.lib}" prefix="lib/"/>
+            <zipfileset dir="${release.tpl}" prefix="src/main/resources/"/>
         </zip>
+        <antcall target="clean.jar"/>
+        <echo>Clean all moudles in release directory.</echo>
+        <delete includeemptydirs="true" failonerror="false">
+            <fileset dir="${release.dir}">
+                <exclude name="${release.name}"/>
+            </fileset>
+        </delete>
     </target>
 
     <!-- @CONFIRMED -->
@@ -310,7 +290,7 @@
         <fail if="do.abort">Delete operation aborted by user.</fail>
         <delete includeemptydirs="true">
             <fileset dir="${bin.dir}">
-                <include name="**/${problem}"/>
+                <include name="**/${problem}/"/>
             </fileset>
             <fileset dir="${main.dir}">
                 <include name="**/${problem}/"/>

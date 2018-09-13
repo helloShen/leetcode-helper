@@ -11,13 +11,9 @@
 
 
     <!-- ================================= classpath ================================== -->
-
-    <!-- build classpath collection with a path-like structure -->
-    <path id="single.jar">
+    <path id="single.jar" description="Classpath for leetcode problem.">
         <pathelement path="${bin.dir}"/>
-        <fileset dir="${lib.dir}">
-            <include name="leetcode-helper.jar"/>
-        </fileset>
+        <pathelement path="${lib.dir}/leetcode-helper.jar/"/>
     </path>
 
     <!-- ================================= targets ================================== -->
@@ -69,7 +65,7 @@
         <fail if="do.abort">Delete operation aborted by user.</fail>
         <delete includeemptydirs="true">
             <fileset dir="${bin.dir}">
-                <include name="**/${problem}"/>
+                <include name="**/${problem}/"/>
             </fileset>
             <fileset dir="${main.dir}">
                 <include name="**/${problem}/"/>
