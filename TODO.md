@@ -12,7 +12,7 @@ Class-Path: . P:/Tools/xstream/1.4.2/lib/kxml2-2.3.0.jar P:/Tools/xstr
 
 (DONE) 2. 准备发布。
 
-3. 清理一下build.xml
+(DONE) 3. 清理一下build.xml
 
 4. 优化代码，尤其是：
     (DONE) * 解决log4j设置成INFO级别，但log.info()不能打印的问题。
