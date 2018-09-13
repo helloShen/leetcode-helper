@@ -23,13 +23,16 @@ import java.nio.charset.Charset;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-
+// log4j
+import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.Logger;
 
 public class ProblemBuilder {
 
     /**
-     * @param args Must have 4 arguments:
+     * @param args
      * Must have 6 arguments:
+     *      0. baseDir
      *      1. templateDir              --> where is the velocity templates
      *      2. srcDir / 3. testDir  |
      *      4. package              |-----> problem source code / test source code directory
@@ -61,7 +64,7 @@ public class ProblemBuilder {
         srcDir = args[1];
         testDir = args[2];
         pck = args[3];
-        problemName = args[4];
+        problemName =args[4];
         util = args[5];
         // construct 3 important dir
         packagePath = pck.replaceAll("\\.","/");
@@ -72,6 +75,8 @@ public class ProblemBuilder {
         // tell velocity where to find .vm template files
         ve.setProperty("file.resource.loader.path", templateDir);
         ve.init();
+        // Logger
+        logger = Logger.getLogger(this.getClass());
     }
 
     /**
@@ -80,7 +85,10 @@ public class ProblemBuilder {
     public void writeTemplates() {
         File[] templates = new File(templateDir).listFiles();
         for (File t : templates) {
-            writeTemplate(t);
+            String fileName = t.getName();
+            if (fileName.substring(fileName.lastIndexOf("."), fileName.length()).equals(".vm")) {
+                writeTemplate(t);
+            }
         }
     }
 
@@ -99,7 +107,7 @@ public class ProblemBuilder {
     String buildSourcePath(File f) {
         String fullFileName = f.getName(); // such as: "Solution.vm"
         String fileName = fullFileName.substring(0, fullFileName.indexOf(".")); // such as: "Solution"
-        if (fileName.length() >= 4 && fileName.substring(0,4).equals("Test")) {
+        if (fileName.length()>= 4 && fileName.substring(0,4).equals("Test")) {
             return testDestination + "/" + fileName + "." + JAVA_EXP; // deploy JUnit test code under testDir
         } else {
             return problemDestination + "/" + fileName + "." + JAVA_EXP; // deploy Solutions code under mainDir
@@ -116,7 +124,7 @@ public class ProblemBuilder {
      * @param dst absolute path where store the generated .java source file
      */
     void writeTemplate(File tplFile) {
-        System.out.println("Writing " + tplFile.getName() + " ... ");
+        logger.info("Writing " + tplFile.getName() + " ... ");
         Template t = ve.getTemplate(tplFile.getName());
         VelocityContext context = new VelocityContext();
         // assign variables
@@ -197,7 +205,9 @@ public class ProblemBuilder {
     }
 
     private VelocityEngine ve;
+    private Logger logger;
 
+    private String baseDir;                 // root of project
     private String templateDir;             // template directory
     private String srcDir;                  // source code directory for all leetcode problems
     private String testDir;                 // junit source code directory
@@ -233,8 +243,10 @@ public class ProblemBuilder {
      */
     public static void main(String[] args) {
         if (args.length != 6) {
-            throw new IllegalArgumentException("Must have 4 argument!");
+            throw new IllegalArgumentException("Must have 6 argument!");
         }
+        String log4jConfPath = args[0] + "/log4j.properties"; // config for log4j is under "src/main/resources"
+        PropertyConfigurator.configure(log4jConfPath);
         ProblemBuilder builder = new ProblemBuilder(args);
         builder.writeTemplates();
     }
