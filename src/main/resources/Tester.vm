@@ -20,6 +20,9 @@ import org.junit.runners.Parameterized.Parameters;
 /** slf4j */
 import org.slf4j.impl.StaticLoggerBinder;
 import org.slf4j.LoggerFactory;
+/** log4j */
+import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.Logger;
 /** commons-lang3 */
 import org.apache.commons.lang3.StringUtils;
 
@@ -30,6 +33,7 @@ public class Tester {
 
     /** Solution to test. */
     private static Solution solution;
+    private static Logger logger;
 
     /** Execute once before any of the test methods in this class. */
     @BeforeClass
@@ -37,6 +41,11 @@ public class Tester {
         /* uncomment to switch solutions */
         solution = new Solution1();
         // solution = new Solution2();
+
+        /* init logger */
+        String log4jConfPath = "${resources}/log4j.properties"; // log4j.properties is under "src/main/resources"
+        PropertyConfigurator.configure(log4jConfPath);
+        logger = Logger.getLogger(Tester.class);
     }
 
     /** Initialize test cases */
@@ -84,7 +93,7 @@ public class Tester {
         //
         // assertion
         //
-        // System.out.println("your-method() pass unit test!");
+        logger.info("your-method() pass unit test!");
     }
 
     /** Execute after each test method in this class is executed. */

@@ -33,7 +33,7 @@ public class ProblemBuilder {
      * @param args
      * Must have 6 arguments:
      *      0. baseDir
-     *      1. templateDir              --> where is the velocity templates
+     *      1. tplDir                   --> where is the velocity templates
      *      2. srcDir / 3. testDir  |
      *      4. package              |-----> problem source code / test source code directory
      *      5. problemName          |
@@ -50,7 +50,7 @@ public class ProblemBuilder {
      * And also, test source code directory,
      *      > testDir = [testDir/packagePath/problemName]
      *
-     * Velocity templates are located in templateDir
+     * Velocity templates are located in tplDir
      *
      * util is the leetcode commonly used data structure library, such as,
      *      > com.ciaoshen.leetcode.myUtils
@@ -60,7 +60,7 @@ public class ProblemBuilder {
             throw new IllegalArgumentException("Must have 6 arguments!");
         }
         // 6 origial arguments
-        templateDir = args[0];
+        tplDir = args[0];
         srcDir = args[1];
         testDir = args[2];
         pck = args[3];
@@ -73,17 +73,17 @@ public class ProblemBuilder {
         // create Velocity engine
         ve = new VelocityEngine();
         // tell velocity where to find .vm template files
-        ve.setProperty("file.resource.loader.path", templateDir);
+        ve.setProperty("file.resource.loader.path", tplDir);
         ve.init();
         // Logger
         logger = Logger.getLogger(this.getClass());
     }
 
     /**
-     * Call writeTemplate() for each template in templateDir
+     * Call writeTemplate() for each template in tplDir
      */
     public void writeTemplates() {
-        File[] templates = new File(templateDir).listFiles();
+        File[] templates = new File(tplDir).listFiles();
         for (File t : templates) {
             String fileName = t.getName();
             if (fileName.substring(fileName.lastIndexOf("."), fileName.length()).equals(".vm")) {
@@ -124,13 +124,14 @@ public class ProblemBuilder {
      * @param dst absolute path where store the generated .java source file
      */
     void writeTemplate(File tplFile) {
-        logger.info("Writing " + tplFile.getName() + " ... ");
+        System.out.println("Writing " + tplFile.getName() + " ... ");
         Template t = ve.getTemplate(tplFile.getName());
         VelocityContext context = new VelocityContext();
         // assign variables
         context.put("problem", problemName);
         context.put("pck", pck);
         context.put("util", util);
+        context.put("resources", tplDir);
         Writer sw = new StringWriter();
         t.merge(context, sw);
         Writer fw = getFileWriter(buildSourcePath(tplFile));
@@ -208,7 +209,7 @@ public class ProblemBuilder {
     private Logger logger;
 
     private String baseDir;                 // root of project
-    private String templateDir;             // template directory
+    private String tplDir;             // template directory
     private String srcDir;                  // source code directory for all leetcode problems
     private String testDir;                 // junit source code directory
     private String pck;                     // package name such as: com.ciaoshen.leetcode.helper
@@ -234,7 +235,7 @@ public class ProblemBuilder {
 
     /**
      * Must have 6 arguments:
-     *      1. templateDir              --> where is the velocity templates
+     *      1. tplDir                   --> where is the velocity templates
      *      2. srcDir / 3. testDir  |
      *      4. package              |-----> problem directory = [src_dir/package_path/problem_name]
      *      5. problemName          |
