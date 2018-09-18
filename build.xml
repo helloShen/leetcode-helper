@@ -1,80 +1,123 @@
 <?xml version="1.0"?>
 <project name="com.ciaoshen.leetcode.helper" basedir="." default="generate">
 
-    <!-- ================================= properties ================================== -->
-    <!-- read properties from a existing file -->
-    <property file="build.properties"/>
-
-    <!-- entry points -->
-    <property name="builder.pck" value="com.ciaoshen.leetcode.helper"/>
-    <property name="junit.entry" value="${builder.pck}.TestRunner"/>
-    <property name="main.entry" value="${builder.pck}.ProblemBuilder"/>
+    <!--
+    ======================================================================
+        DEVELOP DIRECTORY LAYOUT
+    ======================================================================
+    -->
+    <property file="develop.layout.properties"/>
 
 
-    <!-- ================================= classpath ================================== -->
-    <!-- @CONFIRMED -->
-    <path id="classpath" description="Develop Environment.">
-        <pathelement path="${bin.dir}"/>
-        <fileset dir="${lib.dir}">
+    <!--
+    ======================================================================
+        DEVELOP CLASSPATH
+    ======================================================================
+    -->
+    <path id="develop.classpath">
+        <pathelement path="${bin}"/>
+        <pathelement path="${res}"/>
+        <fileset dir="${lib}">
             <include name="*.jar"/>
             <exclude name="gson-2.8.5.jar"/>
-            <exclude name="leetcode-helper.jar"/>
         </fileset>
     </path>
-    <!-- @CONFIRMED -->
-    <path id="single.jar" description="Release a single jar.">
-        <pathelement path="${bin.dir}"/>
-        <pathelement path="${lib.dir}/leetcode-helper.jar/"/>
-    </path>
 
 
-    <!-- ================================= targets to test helper ================================== -->
-
-    <!-- @CONFIRMED -->
-    <target name="compile.src" description="Compile helper source codes.">
-        <echo>Compiling .java source file under ${main.dir} ... </echo>
-        <mkdir dir="${bin.dir}"/> <!-- ant will not re-create an existing dir -->
-        <javac destdir="${bin.dir}" srcdir="${main.dir}" debug="on" includeantruntime="false">
-            <include name="**/*.java"/>
-            <classpath refid="classpath"/>
+    <!--
+    ======================================================================
+        DEVELOP COMPILE
+    ======================================================================
+    -->
+    <!-- com.ciaoshen.leetcode.helper package -->
+    <property name="pck.builder" value="com.ciaoshen.leetcode.helper"/>
+    <loadresource property="builder.subpath">
+        <propertyresource name="pck.builder"/>
+        <filterchain>
+            <tokenfilter>
+                <filetokenizer/>
+                <replacestring from="." to="/"/>
+            </tokenfilter>
+        </filterchain>
+    </loadresource>
+    <!-- com.ciaoshen.leetcode.util package -->
+    <property name="pck.util" value="com.ciaoshen.leetcode.util"/>
+    <loadresource property="util.subpath">
+        <propertyresource name="pck.util"/>
+        <filterchain>
+            <tokenfilter>
+                <filetokenizer/>
+                <replacestring from="." to="/"/>
+            </tokenfilter>
+        </filterchain>
+    </loadresource>
+   <!-- source code collection -->
+   <patternset id="sourcecode">
+       <include name="${builder.subpath}/*.java"/>
+       <include name="${util.subpath}/*.java"/>
+   </patternset>
+   <patternset id="not.sourcecode">
+       <exclude name="${builder.subpath}/*.java"/>
+       <exclude name="${util.subpath}/*.java"/>
+   </patternset>
+    <!-- compile main source code -->
+    <target name="compile.src">
+        <echo>Compiling source under ${src} ... </echo>
+        <mkdir dir="${bin}"/>
+        <javac destdir="${bin}" srcdir="${src}" debug="on" includeantruntime="false">
+            <patternset refid="sourcecode"/>
+            <classpath refid="develop.classpath"/>
         </javac>
     </target>
-    <!-- @CONFIRMED -->
-    <target name="compile.junit" description="Compile helper junit test source codes.">
-        <echo>Compiling .java source file under ${test.dir} ... </echo>
-        <mkdir dir="${bin.dir}"/>
-        <javac destdir="${bin.dir}" srcdir="${test.dir}" debug="on" includeantruntime="false">
-            <include name="**/*.java"/>
-            <classpath refid="classpath"/>
+    <!-- compile junit test code -->
+    <target name="compile.junit">
+        <echo>Compiling source under ${test.src} ... </echo>
+        <mkdir dir="${bin}"/>
+        <javac destdir="${bin}" srcdir="${test.src}" debug="on" includeantruntime="false">
+            <patternset refid="sourcecode"/>
+            <classpath refid="develop.classpath"/>
         </javac>
     </target>
-    <!-- @CONFIRMED -->
-    <target name="junit" depends="compile.src,compile.junit"
-        description="Compile and run helper JUnit test.">
-        <echo>Running JUnit Test ... </echo>
+
+
+    <!--
+    ======================================================================
+        DEVELOP TEST
+    ======================================================================
+    -->
+    <!-- properties of leetcode problem (set by user) -->
+    <property file="problem.properties"/>
+    <!-- test entry points -->
+    <property name="junit.entry" value="${pck.builder}.TesterRunner"/>
+    <property name="main.entry" value="${pck.builder}.ProblemBuilder"/>
+
+    <!-- junit unit test -->
+    <target name="junit" depends="clean, compile.src, compile.junit">
+        <echo>Running junit test ... </echo>
         <java classname="${junit.entry}">
-            <classpath refid="classpath"/>
+            <arg value="${builder.subpath}"/>
+            <!-- <arg value="${util.subpath}"/> -->
+            <classpath refid="develop.classpath"/>
         </java>
         <antcall target="clean"/>
     </target>
-    <!-- @CONFIRMED -->
-    <target name="test" depends="clean, compile.src"
-        description="Compile and run ProblemBuilder main() method">
-        <echo>Running ProblemBuilder from main() method!</echo>
+
+    <!-- launch the main application -->
+    <target name="test" depends="clean, compile.src">
+        <echo>Running ProblemBuilder.main() method!</echo>
         <java classname="${main.entry}">
-            <arg value="${tpl.dir}"/>
-            <arg value="${main.dir}"/>
-            <arg value="${test.dir}"/>
-            <arg value="${pck}"/>
-            <arg value="${problem}"/>
-            <arg value="${util}"/>
-            <classpath refid="classpath"/>
+            <arg value="${basedir}"/>
+            <arg value="${problem.name}"/>
+            <arg value="${problem.pck}"/>
+            <arg value="${problem.util}"/>
+            <classpath refid="develop.classpath"/>
         </java>
         <antcall target="clean"/>
     </target>
-    <!-- @CONFIRMED -->
-    <target name="clean" description="Clean all generated files of helper project.">
-        <input message="Delete all generated files (y/n)?"
+
+    <!-- clean files generated during the test -->
+    <target name="clean">
+        <input message="Delete classes and generated source (y/n)?"
                validargs="y,n"
                addproperty="do.delete"/>
         <condition property="do.abort">
@@ -83,35 +126,34 @@
         <fail if="do.abort">Delete operation aborted by user.</fail>
         <echo>Cleaning all generated .class file and .java skeleton!</echo>
         <delete includeemptydirs="true">
-            <fileset dir="${bin.dir}"/>
-            <fileset dir="${main.dir}">
-                <exclude name="com/ciaoshen/leetcode/helper/"/>
-                <exclude name="com/ciaoshen/leetcode/util/"/>
+            <fileset dir="${bin}"/>
+            <fileset dir="${src}">
+                <patternset refid="not.sourcecode"/>
             </fileset>
-            <fileset dir="${test.dir}">
-                <exclude name="com/ciaoshen/leetcode/helper/"/>
-                <exclude name="com/ciaoshen/leetcode/util/"/>
+            <fileset dir="${test.src}">
+                <patternset refid="not.sourcecode"/>
             </fileset>
         </delete>
     </target>
 
 
-    <!-- ================================= targets to deploy leetcode-helper on my computer ================================== -->
 
-    <!-- deploy properties -->
-    <property name="deploy.bin" value="${deploy.root}/bin"/>
-    <property name="deploy.lib" value="${deploy.root}/lib"/>
-    <property name="deploy.tpl" value="${deploy.root}/src/main/resources"/>
-    <property name="deploy.name" value="leetcode-helper.jar"/>
+    <!--
+    ======================================================================
+        DEPLOY
+    ======================================================================
+    -->
+    <!-- deploy directory -->
+    <!-- <property name="deploy.root" value="/Users/Wei/github/leetcode/java"/>
+    <property name="deploy.name" value="leetcode-helper.jar"/> -->
 
-    <!-- @CONFIRMED -->
-    <target name="clean.jar" description="Delete my leetcode-helper.jar.">
-        <delete file="${lib.dir}/${deploy.name}" failonerror="false"/>
-        <echo>lib/leetcode-helper.jar deleted!</echo>
-    </target>
-    <!-- @CONFIRMED -->
-    <target name="jar" depends="clean.jar, clean, compile.src"
-        description="Compress all libraries to a single jar file leetcode-helper.jar.">
+    <!-- run with single leetcode-helper.jar library -->
+    <!-- <path id="deploy">
+        <pathelement path="${lib}/deploy.name"/>
+    </path> -->
+
+    <!-- packaging program into leetcode-helper.jar file -->
+    <!-- <target name="jar" depends="clean.jar, clean, compile.src">
         <mkdir dir="${lib.dir}"/>
         <jar destfile="${lib.dir}/${deploy.name}">
             <fileset dir="${bin.dir}">
@@ -130,10 +172,16 @@
         </jar>
         <echo>lib/leetcode-helper.jar generated!</echo>
         <antcall target="clean"/>
-    </target>
-    <!-- @CONFIRMED -->
-    <target name="test.jar" depends="jar"
-        description="Compile and run ProblemBuilder main() method using single leetcode-helper.jar">
+    </target> -->
+
+    <!-- clean leetcode-helper.jar -->
+    <!-- <target name="clean.jar">
+        <delete file="${lib.dir}/${deploy.name}" failonerror="false"/>
+        <echo>lib/leetcode-helper.jar deleted!</echo>
+    </target> -->
+
+    <!-- test leetcode-helper.jar -->
+    <!-- <target name="test.jar" depends="jar">
         <echo>Running ProblemBuilder from main() method!</echo>
         <java classname="${main.entry}">
             <arg value="${tpl.dir}"/>
@@ -145,28 +193,13 @@
             <classpath refid="single.jar"/>
         </java>
         <antcall target="clean.jar"/>
-    </target>
-    <!-- @CONFIRMED -->
-    <target name="clean.deploy" description="Clean last deployment.">
-        <echo>Uninstalling ${deploy.name} from leetcode java root ... </echo>
-        <delete includeemptydirs="true" failonerror="false">
-            <fileset dir="${deploy.root}">
-                <include name="build.properties"/>
-                <include name="build.xml"/>
-            </fileset>
-            <file name="${deploy.lib}/${deploy.name}"/>
-            <fileset dir="${deploy.tpl}">
-                <include name="*.vm"/>
-                <include name="*.properties"/>
-            </fileset>
-        </delete>
-    </target>
-    <!-- @CONFIRMED -->
-    <target name="deploy" depends="clean.deploy, jar"
-        description="Deploy helper generator to leetcode java repository.">
+    </target> -->
+
+    <!-- deploy my program -->
+    <!-- <target name="deploy" depends="clean.deploy, jar">
         <echo>Installing helper to leetcode java root.</echo>
         <mkdir dir="${deploy.root}"/>
-        <copy todir="${deploy.root}"> <!-- ant will overwrite the existing file -->
+        <copy todir="${deploy.root}">
             <fileset dir=".">
                 <include name="build-release.properties"/>
                 <include name="build-release.xml"/>
@@ -183,25 +216,35 @@
             </fileset>
         </copy>
         <antcall target="clean.jar"/>
-    </target>
+    </target> -->
 
-
-    <!-- ================================= targets to release leetcode-helper tool to public ================================== -->
-    <!-- @CONFIRMED -->
-    <property name="release.dir" value="release"/>
-    <property name="release.lib" value="${release.dir}/lib"/>
-    <property name="release.tpl" value="${release.dir}/src/main/resources"/>
-    <property name="release.name" value="leetcode-helper.zip"/>
-    <!-- @CONFIRMED -->
-    <target name="clean.release" description="Clean last release.">
-        <echo>Delete the compressed zip file.</echo>
+    <!-- clean last deployment -->
+    <!-- <target name="clean.deploy">
+        <echo>Uninstalling ${deploy.name} from leetcode java root ... </echo>
         <delete includeemptydirs="true" failonerror="false">
-            <fileset dir="${release.dir}"/>
+            <fileset dir="${deploy.root}">
+                <include name="build.properties"/>
+                <include name="build.xml"/>
+            </fileset>
+            <file name="${deploy.lib}/${deploy.name}"/>
+            <fileset dir="${deploy.tpl}">
+                <include name="*.vm"/>
+                <include name="*.properties"/>
+            </fileset>
         </delete>
-    </target>
-    <!-- @CONFIRMED -->
-    <target name="release" depends="clean.release, jar"
-        description="Zip all config files, jar files and template files into 1 .zip file.">
+    </target> -->
+
+
+    <!--
+    ======================================================================
+        RELEASE
+    ======================================================================
+    -->
+    <!-- release directory -->
+    <!-- <property name="release.root" value="release"/>
+    <property name="release.name" value="leetcode-helper.zip"/> -->
+    <!-- compress a release version into leetcode-helper.zip achieve -->
+    <!-- <target name="release" depends="clean.release, jar">
         <echo>Compress a final zip file to release.</echo>
         <mkdir dir="${release.dir}"/>
         <copy todir="${release.dir}">
@@ -232,72 +275,22 @@
                 <exclude name="${release.name}"/>
             </fileset>
         </delete>
-    </target>
+    </target> -->
 
-    <!-- @CONFIRMED -->
-    <target name="clean.all" depends="clean, clean.jar, clean.release"
-        description="A shotcut to delete everything generated by this project!"/>
-
-
-
-    <!-- ================================= release version ================================== -->
-
-    <!--    @CONFIRMED
-            @RELEASE -->
-    <target name="generate.problem" description="Generate project skeleton for a problem.">
-        <java classname="${main.entry}">
-            <arg value="${tpl.dir}"/>
-            <arg value="${main.dir}"/>
-            <arg value="${test.dir}"/>
-            <arg value="${pck}"/>
-            <arg value="${problem}"/>
-            <arg value="${util}"/>
-            <classpath refid="single.jar"/>
-        </java>
-        <echo>Problem ${problem} generated! </echo>
-    </target>
-    <!--    @CONFIRMED
-            @RELEASE-->
-    <target name="compile.problem" description="Compile the generated problem.">
-        <echo>Compile source code for problem ${problem} ... </echo>
-        <mkdir dir="${bin.dir}"/>
-        <javac destdir="${bin.dir}" srcdir="${main.dir}" debug="on" includeantruntime="false">
-            <include name="**/${problem}/*.java"/>
-            <classpath refid="single.jar"/>
-        </javac>
-        <javac destdir="${bin.dir}" srcdir="${test.dir}" debug="on" includeantruntime="false">
-            <include name="**/${problem}/*.java"/>
-            <classpath refid="single.jar"/>
-        </javac>
-    </target>
-    <!--    @CONFIRMED
-            @RELEASE -->
-    <target name="test.problem" description="Test a specific generated problem.">
-        <echo>Test generated problem ${problem} ... </echo>
-        <java classname="${pck}.${problem}.TesterRunner">
-            <classpath refid="single.jar"/>
-        </java>
-    </target>
-    <!--    @CONFIRMED
-            @RELEASE -->
-    <target name="clean.problem" description="Clean everything about a specific problem.">
-        <input message="Delete all source code of problem ${problem} (y/n)?"
-               validargs="y,n"
-               addproperty="do.delete"/>
-        <condition property="do.abort">
-          <equals arg1="n" arg2="${do.delete}"/>
-        </condition>
-        <fail if="do.abort">Delete operation aborted by user.</fail>
-        <delete includeemptydirs="true">
-            <fileset dir="${bin.dir}">
-                <include name="**/${problem}/"/>
-            </fileset>
-            <fileset dir="${main.dir}">
-                <include name="**/${problem}/"/>
-            </fileset>
-            <fileset dir="${test.dir}">
-                <include name="**/${problem}/"/>
-            </fileset>
+    <!-- clean last release leetcode-helper.zip achieve -->
+    <!-- <target name="clean.release">
+        <echo>Delete the compressed zip file.</echo>
+        <delete includeemptydirs="true" failonerror="false">
+            <fileset dir="${release.dir}"/>
         </delete>
-    </target>
+    </target> -->
+
+
+    <!--
+    ======================================================================
+        CLEAN EVERYTHING
+    ======================================================================
+    -->
+    <!-- <target name="clean.all" depends="clean, clean.jar, clean.release"/> -->
+
 </project>
