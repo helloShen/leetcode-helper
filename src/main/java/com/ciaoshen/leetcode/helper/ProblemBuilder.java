@@ -1,7 +1,25 @@
 /**
- * Generate a project skeleton for a Leetcode Problem
+ * MIT License
  *
- * @author Pixel SHEN
+ * Copyright (c) 2018 Wei SHEN 
+
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 package com.ciaoshen.leetcode.helper;
 
@@ -9,25 +27,13 @@ package com.ciaoshen.leetcode.helper;
 import java.util.Properties;
 import java.util.List;
 // java.io
-import java.io.InputStream;
-import java.io.File;
 import java.io.Writer;
 import java.io.StringWriter;
-// import java.io.FileReader;
-import java.io.FileWriter;
-// import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-// java.nio (to creat recursive directory)
+// java.nio.file
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.charset.Charset;
-// java.net
-import java.net.URI;
-import java.net.URL;
-import java.net.URISyntaxException;
 // velocity
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.Template;
@@ -36,140 +42,127 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 // log4j
 import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.Logger;
+// slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/**
+ * Generate and deploy solution skeletons and junit test framework for leetcode problem.
+ *
+ * @author Wei SHEN
+ */
 public class ProblemBuilder {
 
     /** ProblemBuilder knows only the name of the required properties files.
      * It doesn't know where to find them, but PropertyScanner knows. */
     private static final String LAYOUT = "layout.properties";
     private static final String LOG4J = "log4j.properties";
-
+    /** key names used in properties file */
     private static final String SRC = "src";
     private static final String TEST_SRC = "test.src";
     private static final String PROBLEM = "problem";
     private static final String PACKAGE = "pck";
     private static final String UTIL = "util";
-
+    /** extension of java source file */
     private static final String JAVA_EXP = "java";
 
-    // project directory layout extracted from layout.properties
-    String src;             // relative source directory
-    String testSrc;         // relative junit source directory
-
-    // need 4 input arguments
+    // user provides 4 important arguments about a problem
     String root;            // args[0]: user working directory where "build.xml" locate (absolute path)
     String problemName;     // args[1]: problem name
     String pck;             // args[2]: package name
-    String util;            // args[3]: common data structure library
+    String util;            // args[3]: leetcode data structure library
 
-    // construct absolute path
-    String pckPath;         // replace "." by "/", which looks like "com/ciaoshen/leetcode/helper"
-    String solutionDir;     // solution skeleton directory: [root/src/pckPath/problemName]
-    String testDir;         // junit test skeleton directory: [root/testSrc/pckPath/problemName]
+    // project layout configuration extracted from layout.properties
+    String src;             // source directory (relative to project root)
+    String testSrc;         // junit test source directory (relative to project root)
 
-    // outer tools
+    // absolute path constructed from the above relative path
+    String pckPath;         // package sub-path with "/" substitued for "."
+    String solutionDir;     // problem solution source full path (absolute)
+    String testDir;         // junit test source full path (absolute)
+
+    // Velocity
     VelocityEngine ve;
 
-    /**
-     * @param args
-     * Must have 4 arguments:
-     *      1. root           // user working directory (where build.xml locate)
-     *      2. problemName    // problem name such as: two_sum
-     *      3. pck            // problem package name such as: com.ciaoshen.leetcode
-     *      4. util           // leetcode data structure library such as: com.ciaoshen.leetcode.util
-     */
+    /** collect parameters */
     public ProblemBuilder(String[] args) {
         if (args.length != 4) {
             throw new IllegalArgumentException("Must have 4 arguments!");
         }
-        // load 4 input arguments
-        root = args[0];
-        problemName = args[1];
-        pck = args[2];
-        util = args[3];
+        // user provides 4 arguments
+        root = args[0];             // such as: /Users/Wei/github/leetcode-helper
+        problemName = args[1];      // such as: two_sum
+        pck = args[2];              // such as: com.ciaoshen.leetcode
+        util = args[3];             // such as: com.ciaoshen.leetcode.util
 
-        // PropertyScanner scan properties for ProblemBuilder
+        // PropertyScanner scan the other properties 
         Properties layoutProps = PropertyScanner.load(LAYOUT);
         src = layoutProps.getProperty(SRC);
         testSrc = layoutProps.getProperty(TEST_SRC);
 
-        // construct absolute dir
-        pckPath = pck.replaceAll("\\.","/"); // package name with '/' substituted for '.'
+        // construct full-directory 
+        pckPath = pck.replaceAll("\\.","/"); // package sub-path with '/' substituted for '.'
         solutionDir = root + "/" + src + "/" + pckPath + "/" + problemName;
         testDir = root + "/" + testSrc + "/" + pckPath + "/" + problemName;
 
-        // create Velocity engine
+        // ClasspathResourceLoader is a simple loader that will load templates from the classpath. 
         ve = new VelocityEngine();
-
-        /** load velocity template from classpath */
         ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
         ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
         ve.init();
     }
 
-    /**
-     * New version call TemplateSeeker, which load template by ClassLoader
-     * Fill all templates under "/template" directory
-     */
+    /** Velociy load and fill templates */
     public void writeTemplates() {
         List<String> templates = TemplateSeeker.getTemplates();
         for (String template : templates) {
-            writeTemplate(template);
+            if (LOGGER.isInfoEnabled()) {
+                LOGGER.info("[leetcode-hleper] fill out template --> {}", template);
+            }
+            Template t = ve.getTemplate(template);
+            VelocityContext context = new VelocityContext();
+            // assign variables
+            context.put(PROBLEM, problemName);
+            context.put(PACKAGE, pck);
+            context.put(UTIL, util);
+            Writer sw = new StringWriter();
+            t.merge(context, sw);
+            Writer fw = getFileWriter(buildSourcePath(template));
+            try {
+                fw.write(sw.toString());
+                fw.flush();
+                fw.close();
+                sw.close();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
     }
 
     /**
-     * Call Velociy to fill a .vm template
-     * @param tplPath absolute path of a velocity .vm template
-     * @param dst absolute path where store the generated .java source file
-     */
-    void writeTemplate(String path) {
-        System.out.println("Writing " + path + " ... ");
-        Template t = ve.getTemplate(path);
-        VelocityContext context = new VelocityContext();
-        // assign variables
-        context.put(PROBLEM, problemName);
-        context.put(PACKAGE, pck);
-        context.put(UTIL, util);
-        Writer sw = new StringWriter();
-        t.merge(context, sw);
-        Writer fw = getFileWriter(buildSourcePath(path));
-        try {
-            fw.write(sw.toString());
-            fw.flush();
-            fw.close();
-            sw.close();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-    }
-
-    /**
-     * Convert "/template/Solution.vm" to "/Users/Wei/.../Solution.java"
-     * 2 types of source:
-     *      1. solution source: to solutionDir
-     *      2. junit source: to testDir
-     * @param f velocity template file
-     @ @return absolute path of the corresponding java source file
+     * Construct full path of generated skeleton file.
+     * Ex: given "/template/Solution.vm"
+     * Absolute path = "/Users/Wei/github/leetcode/main/java/com/ciaoshen/leetcode/two_sum/Solution.java"
+     * @param path velocity template file path (relative to classpath)
+     @ @return absolute path of generated solution skeleton
      */
     String buildSourcePath(String path) {
-        String fullFileName = path.substring(path.lastIndexOf('/') + 1, path.length()); // such as: "Solution.vm"
-        String fileName = fullFileName.substring(0, fullFileName.indexOf(".")); // such as: "Solution"
+        String fullFileName = path.substring(path.lastIndexOf('/') + 1, path.length()); 
+        String fileName = fullFileName.substring(0, fullFileName.indexOf(".")); 
         if (fileName.length()>= 4 && fileName.substring(0,4).equals("Test")) {
-            return testDir + "/" + fileName + "." + JAVA_EXP; // deploy JUnit test code under testDir
+            return testDir + "/" + fileName + "." + JAVA_EXP;
         } else {
-            return solutionDir + "/" + fileName + "." + JAVA_EXP; // deploy Solutions code under mainDir
+            return solutionDir + "/" + fileName + "." + JAVA_EXP;
         }
     }
 
     /**
      * Get a FileWriter decorated by BufferedWriter (using java.nio)
      * @param  path absolute path of that file
-     * @return      A FileWriter decorated by BufferedWriter
+     * @return A FileWriter decorated by BufferedWriter
      */
     Writer getFileWriter(String path) {
-        Path directory = Paths.get(path.substring(0, path.lastIndexOf("/"))); // eliminate filename
+        Path directory = Paths.get(path.substring(0, path.lastIndexOf("/"))); 
         try {
             if (!Files.exists(directory)) {
                 Files.createDirectories(directory);
@@ -181,11 +174,14 @@ public class ProblemBuilder {
         }
     }
 
+    // call from slf4j facade
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProblemBuilder.class);
+
     public static void main(String[] args) {
         if (args.length != 4) {
             throw new IllegalArgumentException("Must have 4 argument!");
         }
-        // Logger
+        // use log4j as Logger implementaion
         Properties log4jProps = PropertyScanner.load(LOG4J);
         PropertyConfigurator.configure(log4jProps);
         // ProblemBuilder

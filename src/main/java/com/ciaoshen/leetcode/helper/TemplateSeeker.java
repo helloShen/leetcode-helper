@@ -1,13 +1,30 @@
 /**
- * Get the path of template under classpath, such as: "/template/Solution.vm"
- * 
- * @author Pixel SHEN
+ * MIT License
+ *
+ * Copyright (c) 2018 Wei SHEN 
+
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 package com.ciaoshen.leetcode.helper;
 // java.util
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Enumeration;
 // java.io
 import java.io.FileNotFoundException;
 // java.nio
@@ -23,10 +40,11 @@ import java.net.URL;
 import java.net.URISyntaxException;
 
 /**
- * The TemplateSeeker uses ClassLoader to load ".vm" velocity template files
  * ClassLoader can promise to find the "/template" directory in classpath.
  * No matter whether it's under "src/main/resources" directory in my develop
  * environment, or in "leetcode-helper.jar".
+ * 
+ * @author Wei SHEN
  */
 class TemplateSeeker {
 

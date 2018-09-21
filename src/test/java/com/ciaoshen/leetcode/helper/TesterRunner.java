@@ -1,7 +1,25 @@
 /**
- * 单元测试引擎
+ * MIT License
+ *
+ * Copyright (c) 2018 Wei SHEN 
 
- * @author Pixel SHEN
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 package com.ciaoshen.leetcode.helper;
 
@@ -25,8 +43,14 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 // log4j
 import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.Logger;
+// slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+/** 
+ * JUnit test
+ * @author Wei SHEN
+ */
 public class TesterRunner {
 
     private static final String SPLITER = "/";
@@ -62,13 +86,19 @@ public class TesterRunner {
                 String className = classFile.substring(0, classFile.length() - 6); // in form of : "ProblemBuilder"
                 if (className.length() >= 4 && className.substring(className.length() - 4, className.length()).equals("Test")) { // JUnit test class name end with "Test", such as: "TemplateSeekerTest.class"
                     String fullName = packageName + "." + className;
-                    System.out.println(fullName);
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("CLASS --> 【{}】", fullName);
+                    }
                     Class klass = Class.forName(fullName);
                     Result result = JUnitCore.runClasses(klass);
                     for (Failure failure : result.getFailures()) {
-                        System.out.println(failure);
+                        if (LOGGER.isDebugEnabled()) {
+                            LOGGER.debug("{}", failure);
+                        }
                     }
-                    System.out.println("Class " + klass + " pass junit test? " + result.wasSuccessful() + "\n");
+                    if (LOGGER.isDebugEnabled()) {
+                        LOGGER.debug("Class {} pass junit test? {} \n", klass, result.wasSuccessful());
+                    }
                 }
             }
         } catch (Exception e) {
@@ -77,17 +107,22 @@ public class TesterRunner {
     }
 
     private static final String LOG4J = "log4j.properties";
+    // call from slf4j facade
+    private static final Logger LOGGER = LoggerFactory.getLogger(TesterRunner.class);
+
 
     public static void main(String[] args) {
         if (args.length < 1) {
             throw new IllegalArgumentException("TestRunner: Must have 1 argument: package name.");
         }
-        // Logger
+        // use log4j as Logger implementation
         Properties log4jProps = PropertyScanner.load(LOG4J);
         PropertyConfigurator.configure(log4jProps);
 
         for (String pck : args) {
-            System.out.println(">>>>>>>>>>>> Testing package [" + pck + "] <<<<<<<<<<<<\n");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug(" PACKAGE >=========================【{}】=========================<\n", pck);
+            }
             testPackage(pck);
         }
     }

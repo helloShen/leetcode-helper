@@ -26,16 +26,28 @@ Class-Path: . P:/Tools/xstream/1.4.2/lib/kxml2-2.3.0.jar P:/Tools/xstr
     * (DONE) 把搜索模板文件的工作独立到一个新的`TemplateSeeker`类里
     * (DONE) 把读取`.properties`配置信息的工作独立到一个新的`PropertyScanner`类里
     * (DONE) 清理JUnit测试代码，尽可能地简化
-    * 调整log4j和slf4j的一些细节
+    * (DONE) 调整log4j和slf4j的一些细节
+    * (DONE) 把Log等级将至Debug，禁掉Velocity的Log权限
+    * (DONE) 改写Template里的log4j和slf4j的内容
+    * (DONE) 把自己项目里的`System.out`全部改成`LOGGER.debug()`
 
-5. 写一篇”怎么用ClassLoader从classpath读取资源“
+5. 重新部署
 
-6. 写一篇关于nio的心得
+6. 重新发布
 
-7. 上传一个通用的ant`build.xml`到代码库。
+7. 写一篇”怎么用ClassLoader从classpath读取资源“
 
-8. 写一个ant怎么打包jar的笔记
+8. 写一篇关于nio的心得
 
-9. 写一个多个slf4j包的关系
+9. 上传一个通用的ant`build.xml`到代码库。
 
-10. 更新项目README.md
+10. 写一个ant怎么打包jar的笔记
+
+11. 更新项目README.md
+
+12. log4j最佳实践（或者slf4j + logback）
+日志库的前世今生
+https://zhuanlan.zhihu.com/p/24272450
+https://zhuanlan.zhihu.com/p/24275518
+lsf4j和log4j的关系（桥接）
+http://blog.51cto.com/woshixy/1371420

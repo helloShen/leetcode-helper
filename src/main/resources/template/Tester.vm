@@ -3,10 +3,10 @@
  */
 package ${pck}.${problem};
 
-/** basic util */
+// basic util
 import java.util.*;
 import ${util}.*;
-/** JUnit & hamcrest */
+// JUnit & hamcrest
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import org.junit.BeforeClass;
@@ -17,15 +17,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+// slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RunWith(Parameterized.class)
 public class Tester {
 
     /**=========================== 【static for different test cases】 ============================== */
 
-    /** Solution to test. */
+    // Solution to test
     private static Solution solution;
-    private static Logger logger;
+    // use this Object to print the log (call from slf4j facade)
+    private static final Logger LOGGER = LoggerFactory.getLogger(TesterRunner.class);
 
     /** Execute once before any of the test methods in this class. */
     @BeforeClass
@@ -65,7 +69,7 @@ public class Tester {
         //
         // this.= ; (initialize test parameter2)
         //
-        // this.expected = expected;
+        this.expected = expected;
     }
 
     /** Execute before each test method in this class is executed. */
@@ -78,9 +82,11 @@ public class Tester {
         //
         // call solution.method()
         //
-        // assertion
+        // assertThat();
         //
-        logger.info("your-method() pass unit test!");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.info("your-method() pass unit test!");
+        }
     }
 
     /** Execute after each test method in this class is executed. */

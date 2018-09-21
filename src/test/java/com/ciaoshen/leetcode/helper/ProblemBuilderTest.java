@@ -1,7 +1,25 @@
 /**
- * JUnit unit test
+ * MIT License
  *
- * @author Pixel SHEN
+ * Copyright (c) 2018 Wei SHEN 
+
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 package com.ciaoshen.leetcode.helper;
 
@@ -19,8 +37,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+// slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
+
+/**
+ * JUnit test
+ * @author Wei SHEN
+ */
 public class ProblemBuilderTest {
 
     // 4 arguments provided by user
@@ -32,7 +58,10 @@ public class ProblemBuilderTest {
     // resources directory
     private static final String TEST_RES_DIR = "src/test/resources";
 
+    // objet to be tested
     private static ProblemBuilder builder;
+    // call from slf4j facade
+    private static final Logger LOGGER = LoggerFactory.getLogger(TesterRunner.class);
 
     /** Execute once before any of the test methods in this class. */
     @BeforeClass
@@ -45,48 +74,53 @@ public class ProblemBuilderTest {
     public void testConstructor() {
         // 4 input arguments
         assertThat(builder.root, is(equalTo(BASE_DIR)));
-        System.out.println("builder.root = " + builder.root);
         assertThat(builder.problemName, is(equalTo(PROBLEM_NAME)));
-        System.out.println("builder.problemName = " + builder.problemName);
         assertThat(builder.pck, is(equalTo(PACKAGE_NAME)));
-        System.out.println("builder.pck = " + builder.pck);
         assertThat(builder.util, is(equalTo(UTIL)));
-        System.out.println("builder.util = " + builder.util);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("builder.root = {}", builder.root);
+            LOGGER.debug("builder.problemName = {}", builder.problemName);
+            LOGGER.debug("builder.util = {}", builder.util);
+            LOGGER.debug("builder.pck = {}", builder.pck);
+        }
 
         // 2 source dir extracted from property files
         String expectedSrc = "src/main/java";
-        System.out.println("builder.src = " + builder.src);
         assertThat(builder.src, is(equalTo(expectedSrc)));
-
         String expectedTestSrc = "src/test/java";
-        System.out.println("builder.testSrc = " + builder.testSrc);
         assertThat(builder.testSrc, is(equalTo(expectedTestSrc)));
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("builder.src = {}", builder.src);
+            LOGGER.debug("builder.testSrc = {}", builder.testSrc);
+        }
 
         // construct absolute path
         String expectedPckPath = "com/ciaoshen/leetcode";
-        System.out.println("builder.pckPath = " + builder.pckPath);
         assertThat(builder.pckPath, is(equalTo(expectedPckPath)));
-
         String expectedSolutionDir = BASE_DIR + "/" + expectedSrc + "/" + expectedPckPath + "/" + PROBLEM_NAME;
-        System.out.println("builder.solutionDir = " + builder.solutionDir);
         assertThat(builder.solutionDir, is(equalTo(expectedSolutionDir)));
-
         String expectedTestDir = BASE_DIR + "/" + expectedTestSrc + "/" + expectedPckPath + "/" + PROBLEM_NAME;
-        System.out.println("builder.testDir = " + builder.testDir);
         assertThat(builder.testDir, is(equalTo(expectedTestDir)));
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("builder.pckPath = {}", builder.pckPath);
+            LOGGER.debug("builder.solutionDir = {}", builder.solutionDir);
+            LOGGER.debug("builder.testDir = {}", builder.testDir);
+        }
     }
 
     @Test
     public void testBuildSourcePath() {
         String tplPath1 = "/template/Solution.vm";
         String srcPath1 = builder.buildSourcePath(tplPath1);
-        System.out.println("Built absolute source path = " + srcPath1);
         assertThat(srcPath1, is(equalTo(builder.solutionDir + "/Solution.java")));
         String tplPath2 = "/template/TestRunner.vm";
         String srcPath2 = builder.buildSourcePath(tplPath2);
-        System.out.println("Built absolute source path = " + srcPath2);
         assertThat(srcPath2, is(equalTo(builder.testDir + "/TestRunner.java")));
-        System.out.println("ProblemBuilder#buildSourcePath() method pass JUnit test!");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Built absolute source path = {}", srcPath1);
+            LOGGER.debug("Built absolute source path = {}", srcPath2);
+            LOGGER.debug("ProblemBuilder#buildSourcePath() method pass JUnit test!");
+        }
     }
 
     @Test
@@ -96,7 +130,9 @@ public class ProblemBuilderTest {
         Writer fw = builder.getFileWriter(wFile);
         assertNotNull(fw);
         deleteRecursiveDirectory(new File(wFileDir));
-        System.out.println("ProblemBuilder#getWriter() method pass JUnit test!");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("ProblemBuilder#getWriter() method pass JUnit test!");
+        }
     }
 
     @Test
@@ -104,7 +140,9 @@ public class ProblemBuilderTest {
         builder.writeTemplates();
         String answer = readFile(builder.solutionDir + "/Solution.java");
         assertThat("/", is(equalTo(answer.substring(0, answer.indexOf("*")))));
-        System.out.println("ProblemBuilder#writeTemplates() method pass JUnit test!");
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("ProblemBuilder#writeTemplates() method pass JUnit test!");
+        }
     }
 
     /**======================================== 【useful tools】 ============================================= */

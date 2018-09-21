@@ -29,8 +29,9 @@
         DEVELOP COMPILE
     ======================================================================
     -->
-    <!-- com.ciaoshen.leetcode.helper package -->
+    <!-- package name: com.ciaoshen.leetcode.helper -->
     <property name="pck.builder" value="com.ciaoshen.leetcode.helper"/>
+    <!-- package sub-path in form of [com/ciaoshen/leetcode/helper] with "/" substituted for "." -->
     <loadresource property="builder.subpath">
         <propertyresource name="pck.builder"/>
         <filterchain>
@@ -40,8 +41,9 @@
             </tokenfilter>
         </filterchain>
     </loadresource>
-    <!-- com.ciaoshen.leetcode.util package -->
+    <!-- package name: com.ciaoshen.leetcode.util -->
     <property name="pck.util" value="com.ciaoshen.leetcode.util"/>
+    <!-- package sub-path in form of [com/ciaoshen/leetcode/util] with "/" substituted for "." -->
     <loadresource property="util.subpath">
         <propertyresource name="pck.util"/>
         <filterchain>
