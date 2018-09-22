@@ -94,16 +94,29 @@ public class ProblemBuilder {
         problemName = args[1];      // such as: two_sum
         pck = args[2];              // such as: com.ciaoshen.leetcode
         util = args[3];             // such as: com.ciaoshen.leetcode.util
-
+        if (LOGGER.isDebugEnabled()) {
+            for (int i = 0; i < args.length; i++) {
+                LOGGER.debug("arg[{}] = {}", i, args[i]);
+            }
+        }
         // PropertyScanner scan the other properties 
         Properties layoutProps = PropertyScanner.load(LAYOUT);
         src = layoutProps.getProperty(SRC);
         testSrc = layoutProps.getProperty(TEST_SRC);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("src = {}", src);
+            LOGGER.debug("testSrc = {}", testSrc);
+        }
 
         // construct full-directory 
         pckPath = pck.replaceAll("\\.","/"); // package sub-path with '/' substituted for '.'
         solutionDir = root + "/" + src + "/" + pckPath + "/" + problemName;
         testDir = root + "/" + testSrc + "/" + pckPath + "/" + problemName;
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("pckPath = {}", pckPath);
+            LOGGER.debug("solutionDir = {}", solutionDir);
+            LOGGER.debug("testDir = {}", testDir);
+        }
 
         // ClasspathResourceLoader is a simple loader that will load templates from the classpath. 
         ve = new VelocityEngine();
@@ -115,6 +128,11 @@ public class ProblemBuilder {
     /** Velociy load and fill templates */
     public void writeTemplates() {
         List<String> templates = TemplateSeeker.getTemplates();
+        if (LOGGER.isDebugEnabled()) {
+            for (String template : templates) {
+                LOGGER.debug("Find template {}", template);
+            }
+        }
         for (String template : templates) {
             if (LOGGER.isInfoEnabled()) {
                 LOGGER.info("[leetcode-hleper] fill out template --> {}", template);

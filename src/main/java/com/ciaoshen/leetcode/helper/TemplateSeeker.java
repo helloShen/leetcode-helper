@@ -24,20 +24,16 @@
 package com.ciaoshen.leetcode.helper;
 // java.util
 import java.util.List;
+import java.util.Properties;
 import java.util.ArrayList;
+import java.util.Arrays;
 // java.io
-import java.io.FileNotFoundException;
-// java.nio
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.nio.file.DirectoryStream;
-import java.nio.file.DirectoryStream.Filter;
-import java.nio.file.NotDirectoryException;
-// uri
-import java.net.URI;
-import java.net.URL;
-import java.net.URISyntaxException;
+import java.io.InputStream;
+import java.io.IOException;
+// slf4j
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * ClassLoader can promise to find the "/template" directory in classpath.
@@ -52,26 +48,33 @@ class TemplateSeeker {
     The only thing he knows is to scan all velocity ".vm" templates under this direction.
     This is a relative path in classpath, which will be provided to Class.getResource() method. */
     private static final String TPL_DIR = "/template"; // Class.getResource() need leading slash to search from the root of classpath
+    private static final String TPL_PROPS = "/conf/templates.properties";
+    private static final String KEY = "templates";
+    private static final String SPLITER = ",";
+
+    // call from slf4j facade
+    private static final Logger LOGGER = LoggerFactory.getLogger(TemplateSeeker.class);
 
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<>();
+        InputStream stream = TemplateSeeker.class.getResourceAsStream(TPL_PROPS);
+        Properties props = new Properties();
         try {
-            URL url = TemplateSeeker.class.getResource(TPL_DIR);
-            if (url == null) throw new FileNotFoundException();
-            Path dir = Paths.get(url.toURI()); // throws URISyntaxException
-            DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "*.{vm}"); // throws NotDirectoryException, IOException
-            for (Path path : stream) {
-                templates.add(TPL_DIR + "/" + path.getFileName().toString());
-            }
-        } catch (FileNotFoundException | NotDirectoryException ex) {
-            System.out.println("ERR: TemplateSeeker: " + TPL_DIR + " is not a directory.");
-            ex.printStackTrace();
-        } catch (URISyntaxException use) {
-            System.out.println("ERR: TemplateSeeker: URI can not be convert to Path.");
-            use.printStackTrace();
-        } finally {
-            return templates;
+            props.load(stream);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("properties = {}", props.getProperty(KEY));
+        }
+        String[] values = props.getProperty(KEY).split(SPLITER);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("property values = {}", Arrays.toString(values));
+        }
+        for (String value : values) {
+            templates.add(TPL_DIR + "/" + value.trim());
+        }
+        return templates;
     }
 
 }

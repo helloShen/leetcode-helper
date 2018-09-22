@@ -34,7 +34,7 @@ import java.io.InputStream;
  * 
  * @author Wei SHEN
  */
-class PropertyScanner {
+public class PropertyScanner {
 
     // only PropertyScanner knows where to load ".properties".
     static final String CONF = "/conf";
@@ -43,7 +43,7 @@ class PropertyScanner {
      * @param propertyName such as: "layout.properties"
      * @return A Properties object.
      */
-    static Properties load(String fileName) {
+    public static Properties load(String fileName) {
         String fullName = CONF + "/" + fileName;
         InputStream stream = PropertyScanner.class.getResourceAsStream(fullName);
         Properties props = new Properties();

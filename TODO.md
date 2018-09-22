@@ -31,7 +31,7 @@ Class-Path: . P:/Tools/xstream/1.4.2/lib/kxml2-2.3.0.jar P:/Tools/xstr
     * (DONE) 改写Template里的log4j和slf4j的内容
     * (DONE) 把自己项目里的`System.out`全部改成`LOGGER.debug()`
 
-5. 重新部署
+5. (DONE)重新部署
 
 6. 重新发布
 

@@ -14,12 +14,14 @@
         DEVELOP CLASSPATH
     ======================================================================
     -->
+    <property name="jar.name" value="leetcode-helper.jar"/>
     <path id="develop.classpath">
         <pathelement path="${bin}"/>
         <pathelement path="${res}"/>
         <fileset dir="${lib}">
             <include name="*.jar"/>
             <exclude name="gson-2.8.5.jar"/>
+            <exclude name="${jar.name}"/>
         </fileset>
     </path>
 
@@ -146,95 +148,80 @@
     ======================================================================
     -->
     <!-- deploy directory -->
-    <!-- <property name="deploy.root" value="/Users/Wei/github/leetcode/java"/>
-    <property name="deploy.name" value="leetcode-helper.jar"/> -->
-
-    <!-- run with single leetcode-helper.jar library -->
-    <!-- <path id="deploy">
-        <pathelement path="${lib}/deploy.name"/>
-    </path> -->
+    <property name="jar.file" value="${lib}/${jar.name}"/>
 
     <!-- packaging program into leetcode-helper.jar file -->
-    <!-- <target name="jar" depends="clean.jar, clean, compile.src">
-        <mkdir dir="${lib.dir}"/>
-        <jar destfile="${lib.dir}/${deploy.name}">
-            <fileset dir="${bin.dir}">
-                 <include name="com/ciaoshen/leetcode/helper/*.class"/>
-                 <include name="com/ciaoshen/leetcode/util/*.class"/>
+    <target name="jar" depends="clean.jar, clean, compile.src">
+        <mkdir dir="${lib}"/>
+        <jar destfile="${jar.file}">
+            <fileset dir="${bin}">
+                <include name="com/ciaoshen/leetcode/helper/*.class"/>
+                <include name="com/ciaoshen/leetcode/util/*.class"/>
             </fileset>
-            <archives>
-               <zips>
-                   <fileset dir="${lib.dir}">
-                       <include name="**/*.jar"/>
-                       <exclude name="gson-2.8.5.jar"/>
-                       <exclude name="${deploy.name}"/>
-                   </fileset>
-               </zips>
-            </archives>
+            <fileset dir="${res}"/>
+            <zipgroupfileset dir="lib"> 
+                <include name="*.jar"/> 
+                <exclude name="gson-2.8.5.jar"/>
+                <exclude name="${deploy.name}"/>
+            </zipgroupfileset>
+            <fileset file="LICENSE"/>
         </jar>
         <echo>lib/leetcode-helper.jar generated!</echo>
         <antcall target="clean"/>
-    </target> -->
+    </target>
 
     <!-- clean leetcode-helper.jar -->
-    <!-- <target name="clean.jar">
-        <delete file="${lib.dir}/${deploy.name}" failonerror="false"/>
+    <target name="clean.jar">
+        <delete file="${jar.file}" failonerror="false"/>
         <echo>lib/leetcode-helper.jar deleted!</echo>
-    </target> -->
+    </target>
 
-    <!-- test leetcode-helper.jar -->
-    <!-- <target name="test.jar" depends="jar">
+    <path id="single.jar">
+        <fileset file="${jar.file}"/>
+    </path>
+    <!-- run with single leetcode-helper.jar library -->
+    <target name="test.jar" depends="jar">
         <echo>Running ProblemBuilder from main() method!</echo>
         <java classname="${main.entry}">
-            <arg value="${tpl.dir}"/>
-            <arg value="${main.dir}"/>
-            <arg value="${test.dir}"/>
-            <arg value="${pck}"/>
-            <arg value="${problem}"/>
-            <arg value="${util}"/>
+            <arg value="${basedir}"/>
+            <arg value="${problem.name}"/>
+            <arg value="${problem.pck}"/>
+            <arg value="${problem.util}"/>
             <classpath refid="single.jar"/>
         </java>
         <antcall target="clean.jar"/>
-    </target> -->
+    </target>
 
     <!-- deploy my program -->
-    <!-- <target name="deploy" depends="clean.deploy, jar">
+    <property name="deploy.root" value="/Users/Wei/github/leetcode/java"/>
+    <property name="deploy.lib" value="${deploy.root}/lib"/>
+
+    <target name="deploy" depends="clean.deploy, jar">
         <echo>Installing helper to leetcode java root.</echo>
         <mkdir dir="${deploy.root}"/>
         <copy todir="${deploy.root}">
-            <fileset dir=".">
-                <include name="build-release.properties"/>
-                <include name="build-release.xml"/>
-            </fileset>
+            <file name="${basedir}/build-release.xml"/>
             <globmapper from="build-release.*" to="build.*"/>
         </copy>
-        <mkdir dir="${deploy.lib}"/>
-        <copy file="${lib.dir}/${deploy.name}" todir="${deploy.lib}"/>
-        <mkdir dir="${deploy.tpl}"/>
-        <copy todir="${deploy.tpl}">
-            <fileset dir="${tpl.dir}">
-                <include name="*.vm"/>
-                <include name="*.properties"/>
-            </fileset>
+        <copy todir="${deploy.root}">
+            <file name="${basedir}/problem.properties"/>
         </copy>
+        <mkdir dir="${deploy.lib}"/>
+        <copy file="${jar.file}" todir="${deploy.lib}"/>
         <antcall target="clean.jar"/>
-    </target> -->
+    </target>
 
     <!-- clean last deployment -->
-    <!-- <target name="clean.deploy">
+    <target name="clean.deploy">
         <echo>Uninstalling ${deploy.name} from leetcode java root ... </echo>
         <delete includeemptydirs="true" failonerror="false">
             <fileset dir="${deploy.root}">
-                <include name="build.properties"/>
+                <include name="problem.properties"/>
                 <include name="build.xml"/>
             </fileset>
-            <file name="${deploy.lib}/${deploy.name}"/>
-            <fileset dir="${deploy.tpl}">
-                <include name="*.vm"/>
-                <include name="*.properties"/>
-            </fileset>
+            <file name="${deploy.lib}/${jar.name}"/>
         </delete>
-    </target> -->
+    </target>
 
 
     <!--
@@ -244,7 +231,7 @@
     -->
     <!-- release directory -->
     <!-- <property name="release.root" value="release"/>
-    <property name="release.name" value="leetcode-helper.zip"/> -->
+    <property name="release.name" value="leetcode-helper.zip"/>-->
     <!-- compress a release version into leetcode-helper.zip achieve -->
     <!-- <target name="release" depends="clean.release, jar">
         <echo>Compress a final zip file to release.</echo>

@@ -2,8 +2,10 @@
 <project name="com.ciaoshen.leetcode.helper" basedir="." default="generate">
 
     <!-- ================================= properties ================================== -->
+    <property name="jar" value="leetcode-helper.jar"/>
     <!-- read properties from a existing file -->
-    <property file="build.properties"/>
+    <property file="problem.properties"/>
+    <property url="jar:file:lib/${jar}!/conf/layout.properties" />
 
     <!-- entry points -->
     <property name="builder.pck" value="com.ciaoshen.leetcode.helper"/>
@@ -11,52 +13,47 @@
 
 
     <!-- ================================= classpath ================================== -->
-    <path id="single.jar" description="Classpath for leetcode problem.">
-        <pathelement path="${bin.dir}"/>
-        <pathelement path="${lib.dir}/leetcode-helper.jar/"/>
+    <path id="single.jar">
+        <pathelement path="${bin}"/>
+        <pathelement path="${lib}/${jar}/"/>
     </path>
 
     <!-- ================================= targets ================================== -->
-    <!--    @CONFIRMED
-            @RELEASE -->
-    <target name="generate" description="Generate project skeleton for a problem.">
+    <!-- generate skeleton source -->
+    <target name="generate">
+        <echo>problem.name = ${problem.name}</echo>
         <java classname="${main.entry}">
-            <arg value="${tpl.dir}"/>
-            <arg value="${main.dir}"/>
-            <arg value="${test.dir}"/>
-            <arg value="${pck}"/>
-            <arg value="${problem}"/>
-            <arg value="${util}"/>
+            <arg value="${basedir}"/>
+            <arg value="${problem.name}"/>
+            <arg value="${problem.pck}"/>
+            <arg value="${problem.util}"/>
             <classpath refid="single.jar"/>
         </java>
-        <echo>Problem ${problem} generated! </echo>
+        <echo>Problem ${problem.name} generated! </echo>
     </target>
-    <!--    @CONFIRMED
-            @RELEASE-->
-    <target name="compile" description="Compile the generated problem.">
-        <echo>Compile source code for problem ${problem} ... </echo>
-        <mkdir dir="${bin.dir}"/>
-        <javac destdir="${bin.dir}" srcdir="${main.dir}" debug="on" includeantruntime="false">
-            <include name="**/${problem}/*.java"/>
+    <!-- compile solutions -->
+    <target name="compile">
+        <echo>Compile source code for problem ${problem.name} ... </echo>
+        <mkdir dir="${bin}"/>
+        <javac destdir="${bin}" srcdir="${src}" debug="on" includeantruntime="false">
+            <include name="**/${problem.name}/*.java"/>
             <classpath refid="single.jar"/>
         </javac>
-        <javac destdir="${bin.dir}" srcdir="${test.dir}" debug="on" includeantruntime="false">
-            <include name="**/${problem}/*.java"/>
+        <javac destdir="${bin}" srcdir="${test.src}" debug="on" includeantruntime="false">
+            <include name="**/${problem.name}/*.java"/>
             <classpath refid="single.jar"/>
         </javac>
     </target>
-    <!--    @CONFIRMED
-            @RELEASE -->
-    <target name="test" description="Test a specific generated problem.">
-        <echo>Test generated problem ${problem} ... </echo>
-        <java classname="${pck}.${problem}.TesterRunner">
+    <!-- launch JUnit test -->
+    <target name="test">
+        <echo>Launch JUnit test for problem ${problem.name} ... </echo>
+        <java classname="${problem.pck}.${problem.name}.TesterRunner">
             <classpath refid="single.jar"/>
         </java>
     </target>
-    <!--    @CONFIRMED
-            @RELEASE -->
-    <target name="clean" description="Clean everything about a specific problem.">
-        <input message="Delete all source code of problem ${problem} (y/n)?"
+    <!-- clean everything about this problem -->
+    <target name="clean">
+        <input message="Delete all source of problem ${problem} (y/n)?"
                validargs="y,n"
                addproperty="do.delete"/>
         <condition property="do.abort">
@@ -64,14 +61,14 @@
         </condition>
         <fail if="do.abort">Delete operation aborted by user.</fail>
         <delete includeemptydirs="true">
-            <fileset dir="${bin.dir}">
-                <include name="**/${problem}/"/>
+            <fileset dir="${bin}">
+                <include name="**/${problem.name}/"/>
             </fileset>
-            <fileset dir="${main.dir}">
-                <include name="**/${problem}/"/>
+            <fileset dir="${src}">
+                <include name="**/${problem.name}/"/>
             </fileset>
-            <fileset dir="${test.dir}">
-                <include name="**/${problem}/"/>
+            <fileset dir="${test.src}">
+                <include name="**/${problem.name}/"/>
             </fileset>
         </delete>
     </target>
