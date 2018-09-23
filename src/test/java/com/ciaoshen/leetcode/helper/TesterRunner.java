@@ -25,6 +25,7 @@ package com.ciaoshen.leetcode.helper;
 
 // java.util
 import java.util.Properties;
+import java.util.Arrays;
 // java.io
 import java.io.FileNotFoundException;
 // java.nio
@@ -115,6 +116,7 @@ public class TesterRunner {
         if (args.length < 1) {
             throw new IllegalArgumentException("TestRunner: Must have 1 argument: package name.");
         }
+        System.out.println(Arrays.toString(args));
         // use log4j as Logger implementation
         Properties log4jProps = PropertyScanner.load(LOG4J);
         PropertyConfigurator.configure(log4jProps);

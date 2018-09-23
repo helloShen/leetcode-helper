@@ -6,5 +6,5 @@ import java.util.*;
 import ${util}.*;
 
 interface Solution {
-
+    
 }

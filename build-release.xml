@@ -1,7 +1,36 @@
 <?xml version="1.0"?>
+<!--
+================================================================================
+MIT License
+
+Copyright (c) 2018 Wei SHEN 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+================================================================================
+-->
 <project name="com.ciaoshen.leetcode.helper" basedir="." default="generate">
 
-    <!-- ================================= properties ================================== -->
+    <!--
+    ======================================================================
+        PROPERTIES
+    ======================================================================
+    -->
     <property name="jar" value="leetcode-helper.jar"/>
     <!-- read properties from a existing file -->
     <property file="problem.properties"/>
@@ -12,25 +41,36 @@
     <property name="main.entry" value="${builder.pck}.ProblemBuilder"/>
 
 
-    <!-- ================================= classpath ================================== -->
+    <!--
+    ======================================================================
+        CLASSPATH
+    ======================================================================
+    -->
     <path id="single.jar">
         <pathelement path="${bin}"/>
         <pathelement path="${lib}/${jar}/"/>
     </path>
 
-    <!-- ================================= targets ================================== -->
+
+    <!--
+    ======================================================================
+        TARGETS
+    ======================================================================
+    -->
     <!-- generate skeleton source -->
     <target name="generate">
         <echo>problem.name = ${problem.name}</echo>
         <java classname="${main.entry}">
             <arg value="${basedir}"/>
-            <arg value="${problem.name}"/>
+            <arg value="${problem.name}"/> <!-- I can give ProblemBuilder other resources -->
             <arg value="${problem.pck}"/>
             <arg value="${problem.util}"/>
+            <arg value="${problem.members}"/> <!-- I can give ProblemBuilder other resources -->
             <classpath refid="single.jar"/>
         </java>
         <echo>Problem ${problem.name} generated! </echo>
     </target>
+
     <!-- compile solutions -->
     <target name="compile">
         <echo>Compile source code for problem ${problem.name} ... </echo>
@@ -44,6 +84,7 @@
             <classpath refid="single.jar"/>
         </javac>
     </target>
+
     <!-- launch JUnit test -->
     <target name="test">
         <echo>Launch JUnit test for problem ${problem.name} ... </echo>
@@ -51,6 +92,7 @@
             <classpath refid="single.jar"/>
         </java>
     </target>
+
     <!-- clean everything about this problem -->
     <target name="clean">
         <input message="Delete all source of problem ${problem} (y/n)?"

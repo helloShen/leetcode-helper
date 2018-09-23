@@ -63,14 +63,16 @@ public class ProblemBuilder {
     private static final String PROBLEM = "problem";
     private static final String PACKAGE = "pck";
     private static final String UTIL = "util";
+    private static final String MEMBERS = "members";
     /** extension of java source file */
     private static final String JAVA_EXP = "java";
 
-    // user provides 4 important arguments about a problem
+    // user provides 5 important arguments to describe a problem
     String root;            // args[0]: user working directory where "build.xml" locate (absolute path)
     String problemName;     // args[1]: problem name
     String pck;             // args[2]: package name
     String util;            // args[3]: leetcode data structure library
+    String members;         // args[4]: members of a class
 
     // project layout configuration extracted from layout.properties
     String src;             // source directory (relative to project root)
@@ -86,14 +88,15 @@ public class ProblemBuilder {
 
     /** collect parameters */
     public ProblemBuilder(String[] args) {
-        if (args.length != 4) {
-            throw new IllegalArgumentException("Must have 4 arguments!");
+        if (args.length != 5) {
+            throw new IllegalArgumentException("Must have 5 arguments!");
         }
         // user provides 4 arguments
         root = args[0];             // such as: /Users/Wei/github/leetcode-helper
         problemName = args[1];      // such as: two_sum
         pck = args[2];              // such as: com.ciaoshen.leetcode
         util = args[3];             // such as: com.ciaoshen.leetcode.util
+        members = args[4];          // such as: int add(int a, int b) {}
         if (LOGGER.isDebugEnabled()) {
             for (int i = 0; i < args.length; i++) {
                 LOGGER.debug("arg[{}] = {}", i, args[i]);
@@ -143,6 +146,7 @@ public class ProblemBuilder {
             context.put(PROBLEM, problemName);
             context.put(PACKAGE, pck);
             context.put(UTIL, util);
+            context.put(MEMBERS, members);
             Writer sw = new StringWriter();
             t.merge(context, sw);
             Writer fw = getFileWriter(buildSourcePath(template));
@@ -196,8 +200,8 @@ public class ProblemBuilder {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProblemBuilder.class);
 
     public static void main(String[] args) {
-        if (args.length != 4) {
-            throw new IllegalArgumentException("Must have 4 argument!");
+        if (args.length != 5) {
+            throw new IllegalArgumentException("Must have 5 arguments!");
         }
         // use log4j as Logger implementaion
         Properties log4jProps = PropertyScanner.load(LOG4J);

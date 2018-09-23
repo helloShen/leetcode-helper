@@ -32,8 +32,17 @@ Class-Path: . P:/Tools/xstream/1.4.2/lib/kxml2-2.3.0.jar P:/Tools/xstr
     * (DONE) 把自己项目里的`System.out`全部改成`LOGGER.debug()`
 
 5. (DONE)重新部署
+    * (DONE) 解决jar里拿不到`Path`的问题
+    https://stackoverflow.com/questions/15713119/java-nio-file-path-for-a-classpath-resource
+    * (DONE) 屏蔽掉项目内部debug级别的log
+    * (DONE) 规范化jar打包
 
 6. 重新发布
+    * (DONE) `.tar`
+    * (DONE) `.tar.gz`
+    * (DONE) `.zip`
+    * (DOEN) `.rar` (ant doesn't support rar)
+    * `.7z`
 
 7. 写一篇”怎么用ClassLoader从classpath读取资源“
 

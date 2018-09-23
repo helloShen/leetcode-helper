@@ -54,6 +54,7 @@ public class ProblemBuilderTest {
     private static final String PROBLEM_NAME = "two_sum";
     private static final String PACKAGE_NAME = "com.ciaoshen.leetcode";
     private static final String UTIL = "com.ciaoshen.leetcode.util";
+    private static final String MEMBERS = "int add(int a, int b) {}";
 
     // resources directory
     private static final String TEST_RES_DIR = "src/test/resources";
@@ -66,7 +67,7 @@ public class ProblemBuilderTest {
     /** Execute once before any of the test methods in this class. */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        String[] args = new String[]{BASE_DIR, PROBLEM_NAME, PACKAGE_NAME, UTIL};
+        String[] args = new String[]{BASE_DIR, PROBLEM_NAME, PACKAGE_NAME, UTIL, MEMBERS};
         builder = new ProblemBuilder(args);
     }
 
@@ -77,11 +78,13 @@ public class ProblemBuilderTest {
         assertThat(builder.problemName, is(equalTo(PROBLEM_NAME)));
         assertThat(builder.pck, is(equalTo(PACKAGE_NAME)));
         assertThat(builder.util, is(equalTo(UTIL)));
+        assertThat(builder.members, is(equalTo(MEMBERS)));
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("builder.root = {}", builder.root);
             LOGGER.debug("builder.problemName = {}", builder.problemName);
-            LOGGER.debug("builder.util = {}", builder.util);
             LOGGER.debug("builder.pck = {}", builder.pck);
+            LOGGER.debug("builder.util = {}", builder.util);
+            LOGGER.debug("builder.members = {}", builder.members);
         }
 
         // 2 source dir extracted from property files

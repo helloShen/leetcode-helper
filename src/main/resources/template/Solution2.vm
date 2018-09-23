@@ -7,4 +7,6 @@ import ${util}.*;
 
 class Solution2 implements Solution {
 
+    ${members}
+
 }
