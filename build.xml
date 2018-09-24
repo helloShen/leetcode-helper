@@ -279,7 +279,10 @@ SOFTWARE.
         </copy>
         <copy todir="${release.root}">
             <file name="${basedir}/problem.properties"/>
-            <file name="${basedir}/README.md"/>
+        </copy>
+        <copy todir="${release.root}">
+            <file name="${basedir}/USER-README.md"/>
+            <globmapper from="USER-README.*" to="README.*"/>
         </copy>
         <mkdir dir="${release.root}/${lib}"/>
         <copy file="${jar.file}" todir="${release.root}/${lib}"/>

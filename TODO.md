@@ -10,11 +10,11 @@ Class-Path: . P:/Tools/xstream/1.4.2/lib/kxml2-2.3.0.jar P:/Tools/xstr
  lr-3.3-complete.jar P:/Tools/StringTemplate/4.0.5/lib/ST-4.0.5.jar P:
  /Tools/Jdbc/lib/sqljdbc4.jar
 
-2. (DONE) 准备发布。
+2. (DONE) 准备发布。---------------------------------------------- [v0.3]
 
 3. (DONE) 清理一下build.xml
 
-4. 优化代码，尤其是：
+4. (DONE) 优化代码，尤其是：
     * (DONE) 解决log4j设置成INFO级别，但log.info()不能打印的问题。
     * (DONE) 参数调整，不应该让用户看到的参数放到`build.xml`里。用户可以设置的才放在`conf.properties`里。
     * (DONE) 文件路径全是相对路径，因为`java.io`默认以`user.dir`为根目录。可能`ClassLoader.getResourceAsStream()`读取到`InputStream`，然后再解析成一个`Properties`类是比较靠谱的做法。
@@ -31,30 +31,39 @@ Class-Path: . P:/Tools/xstream/1.4.2/lib/kxml2-2.3.0.jar P:/Tools/xstr
     * (DONE) 改写Template里的log4j和slf4j的内容
     * (DONE) 把自己项目里的`System.out`全部改成`LOGGER.debug()`
 
-5. (DONE)重新部署
+5. (DONE) 重新部署
     * (DONE) 解决jar里拿不到`Path`的问题
     https://stackoverflow.com/questions/15713119/java-nio-file-path-for-a-classpath-resource
     * (DONE) 屏蔽掉项目内部debug级别的log
     * (DONE) 规范化jar打包
 
-6. 重新发布
+6. (DONE) 重新发布
     * (DONE) `.tar`
     * (DONE) `.tar.gz`
     * (DONE) `.zip`
     * (DOEN) `.rar` (ant doesn't support rar)
-    * `.7z`
 
-7. 写一篇”怎么用ClassLoader从classpath读取资源“
+7. github上正式发布之前的0.2和0.3版
 
-8. 写一篇关于nio的心得
+8. (DONE) 更新项目README.md ---------------------------------------------- [v0.4]
+    * (DONE) 先写一篇加入发布压缩包的《给用户的README》
 
-9. 上传一个通用的ant`build.xml`到代码库。
+9. 清理`com.ciaoshen.leetcode.util`包
+    * 只留最基本的数据结构
 
-10. 写一个ant怎么打包jar的笔记
+10. 更好的github项目README.md ------------------------------------- [v0.5]
+    * 加入徽章：shields.io
+    * travis、coverage、npm等等
 
-11. 更新项目README.md
+10. 写一篇”怎么用ClassLoader从classpath读取资源“
 
-12. log4j最佳实践（或者slf4j + logback）
+11. 写一篇关于nio的心得
+
+12. 上传一个通用的ant`build.xml`到代码库。
+
+13. 写一个ant怎么打包jar的笔记
+
+14. log4j最佳实践（或者slf4j + logback）
 日志库的前世今生
 https://zhuanlan.zhihu.com/p/24272450
 https://zhuanlan.zhihu.com/p/24275518
