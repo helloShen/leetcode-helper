@@ -43,10 +43,10 @@ Class-Path: . P:/Tools/xstream/1.4.2/lib/kxml2-2.3.0.jar P:/Tools/xstr
     * (DONE) `.zip`
     * (DOEN) `.rar` (ant doesn't support rar)
 
-7. github上正式发布之前的0.2和0.3版
-
-8. (DONE) 更新项目README.md ---------------------------------------------- [v0.4]
+7. (DONE) 更新项目README.md ---------------------------------------------- [v0.4]
     * (DONE) 先写一篇加入发布压缩包的《给用户的README》
+
+8. (DONE) github上正式发布全部4个版本：0.1, 0.2, 0.3, 和 0.4
 
 9. 清理`com.ciaoshen.leetcode.util`包
     * 只留最基本的数据结构
@@ -56,12 +56,19 @@ Class-Path: . P:/Tools/xstream/1.4.2/lib/kxml2-2.3.0.jar P:/Tools/xstr
     * travis、coverage、npm等等
 
 10. 写一篇”怎么用ClassLoader从classpath读取资源“
+https://stackoverflow.com/questions/6608795/what-is-the-difference-between-class-getresource-and-classloader-getresource
+https://stackoverflow.com/questions/3861989/preferred-way-of-loading-resources-in-java
 
 11. 写一篇关于nio的心得
 
 12. 上传一个通用的ant`build.xml`到代码库。
 
-13. 写一个ant怎么打包jar的笔记
+13. 写一个ant怎么打包jar，tar, tar.gz, zip的笔记,
+https://stackoverflow.com/questions/515428/clean-way-to-combine-multiple-jars-preferably-using-ant
+https://ant.apache.org/manual/Tasks/tar.html
+https://ant.apache.org/manual/Tasks/zip.html
+https://www.pharmasoft.be/7z/
+https://www.zhihu.com/question/26026741
 
 14. log4j最佳实践（或者slf4j + logback）
 日志库的前世今生
@@ -69,3 +76,12 @@ https://zhuanlan.zhihu.com/p/24272450
 https://zhuanlan.zhihu.com/p/24275518
 lsf4j和log4j的关系（桥接）
 http://blog.51cto.com/woshixy/1371420
+
+15. 记录：怎么在github上面release，打tag:
+https://stackoverflow.com/questions/1028649/how-do-you-rename-a-git-tag/5719854#5719854
+https://stackoverflow.com/questions/18216991/create-a-tag-in-github-repository
+
+16. properties怎么写多个参数值
+https://stackoverflow.com/questions/9737812/properties-file-with-a-list-as-the-value-for-an-individual-key
+
+17. 考虑用javascript在leetcode网页上加个按钮。抓取问题信息调用`leetcode-helper`创建项目骨架。

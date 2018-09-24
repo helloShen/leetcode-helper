@@ -166,3 +166,24 @@ ant test -Dproblem.name three_sum
 ```
 ant clean -Dproblem.name three_sum
 ```
+
+
+# Version History
+
+### v0.2
+1. Use Apache Velocity to separate skeleton templates and skeleton generator.
+2. Add `com.ciaoshen.leetcode.util` library to support the commonly used data structures in leetcode.
+
+### v0.3
+1. Combine multiple jar libraries into one
+2. Support log4j
+3. Reinforce ant + JUnit scaffold to enable test-driven development and continuous delivery.
+
+### v0.4
+1. Include templates and properties files into jar
+2. Load all resources from classpath
+3. Migrate from `java.io` to `java.nio`
+4. Support slf4j facade for log4j
+5. Reinforce JUnit test template
+6. Update `build.xml` scaffold
+
