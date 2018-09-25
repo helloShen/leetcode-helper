@@ -1,34 +1,52 @@
 /**
- * NestedInteger for Leetcode problem: Flatten Nested List Iterator
+ * MIT License
+ *
+ * Copyright (c) 2018 Wei SHEN 
+
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 package com.ciaoshen.leetcode.util;
 import java.util.*;
 
+
+/**
+ * NestedInteger for Leetcode problem: Flatten Nested List Iterator
+ * ex:
+ *      [[1,1],2,[1,1]]
+ *      [1,[4,[6]]]
+ * Related Problem:
+ *     #341 - Flatten Nested List Iterator
+ *     #385 - Mini Parser 
+ * 
+ * @author Wei SHEN
+ */
 public class NestedInteger {
 
-    /** 构造函数 */
+    public Integer num = null;
+    public List<NestedInteger> nums = null;
+
     public NestedInteger() {
         nums = new ArrayList<NestedInteger>();
     }
     public NestedInteger(int num) {
         this.num = num;
     }
-    public NestedInteger(int[] in) {
-        nums = new ArrayList<NestedInteger>();
-        for (int num : in) {
-            nums.add(new NestedInteger(num));
-        }
-    }
-    public NestedInteger(String s) {
-        NestedInteger created = deserialize(s);
-        if (created.isInteger()) {
-            this.num = created.getInteger();
-        } else {
-            this.nums = created.getList();
-        }
-    }
-
-    /** 公开接口 */
     public boolean isInteger() {
         return nums == null;
     }
@@ -47,7 +65,7 @@ public class NestedInteger {
         }
     }
 
-    /** 序列化 */
+    /** Serialization */
     public String toString() {
         if (isInteger()) {
             return "" + num;
@@ -64,66 +82,5 @@ public class NestedInteger {
             return sb.toString();
         }
     }
-
-    /**
-     * 反序列化。要求输入格式如下：
-     * 1. 输入String不能为空
-     * 2. 不能有空格
-     * 3. 只能包含以下字符：
-     *      '0~9'
-     *      ','
-     *      '-'
-     *      '['
-     *      ']'
-     *
-     * 下面几个例子是合法的：
-     *      "[123,[456,[789]]]"
-     *      "123"
-     *      "[-123,[],[[]]]"
-     *
-     *  !注：单个"-"表示0
-     */
-    private static NestedInteger deserialize(String s) {
-        int sign = 1;
-        Integer num = null;
-        Deque<NestedInteger> stack = new LinkedList<>();
-        NestedInteger dummy = new NestedInteger();
-        NestedInteger curr = dummy;
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c == '[') {
-                NestedInteger newNI = new NestedInteger();
-                curr.add(newNI);
-                stack.push(curr);
-                curr = newNI;
-            } else if (c == ']' || c == ',') {
-                if (num != null) {
-                    curr.add(new NestedInteger(num * sign));
-                    num = null;
-                    sign = 1;
-                }
-                if (c == ']') {
-                    curr = stack.pop();
-                }
-            } else if (c =='-') {
-                num = 0;
-                sign = -1;
-            } else { // is digit
-                if (num == null) {
-                    num = 0;
-                }
-                num = num * 10 + (c - '0');
-            }
-        }
-        if (num != null) { // dump
-            curr.add(new NestedInteger(num * sign));
-        }
-        return dummy.getList().get(0);
-    }
-
-
-    /** 私有字段，实际数据 */
-    private Integer num = null;
-    private List<NestedInteger> nums = null;
 
 }

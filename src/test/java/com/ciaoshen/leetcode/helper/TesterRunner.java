@@ -107,7 +107,7 @@ public class TesterRunner {
         }
     }
 
-    private static final String LOG4J = "log4j.properties";
+    private static final String LOG4J = "log4j-dev.properties";
     // call from slf4j facade
     private static final Logger LOGGER = LoggerFactory.getLogger(TesterRunner.class);
 

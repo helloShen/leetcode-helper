@@ -1,13 +1,39 @@
 /**
- * Leetcode - Data Structure - ListNode
+ * MIT License
+ *
+ * Copyright (c) 2018 Wei SHEN 
+
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 package com.ciaoshen.leetcode.util;
-import java.util.*;
 
+/**
+ * ListNode is Singly-Linked List
+ * ex: 1->2->3->4->5
+ * 
+ * @author Wei SHEN
+ */
 public class ListNode {
     public int val;
     public ListNode next;
     public ListNode(int x) { val = x; }
+
     public String toString() {
         ListNode cursor = this;
         StringBuilder sb = new StringBuilder();
@@ -19,46 +45,5 @@ public class ListNode {
         if (length > 2) { sb = sb.delete(length-2,length); }
         return sb.toString();
     }
-    /**
-     * Static Factory
-     */
-    private static final Random R = new Random();
-    public static ListNode random(int size, int max) {
-        ListNode sentinel = new ListNode(0), cursor = sentinel;
-        for (int i = 0; i < size; i++) {
-            cursor.next = new ListNode(R.nextInt(max)+1);
-            cursor = cursor.next;
-        }
-        return sentinel.next;
-    }
-    public static ListNode randomSorted(int size, int max) {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            list.add(R.nextInt(max)+1);
-        }
-        Collections.sort(list);
-        ListNode sentinel = new ListNode(0), cursor = sentinel;
-        for (int num : list) {
-            cursor.next = new ListNode(num);
-            cursor = cursor.next;
-        }
-        return sentinel.next;
-    }
-    private static void testToString() {
-        ListNode test = new ListNode(0), cursor = test;
-        for (int i = 1; i < 10; i++) {
-            cursor.next = new ListNode(i);
-            cursor = cursor.next;
-        }
-        System.out.println(test);
-    }
-    private static void testRandom() {
-        for (int i = 0; i < 10; i++) {
-            System.out.println("Random [1~10]: " + random(10,10));
-        }
-    }
-    public static void main(String[] args) {
-        //testToString();
-        //testRandom();
-    }
+
 }

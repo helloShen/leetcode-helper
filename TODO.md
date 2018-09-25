@@ -50,6 +50,13 @@ Class-Path: . P:/Tools/xstream/1.4.2/lib/kxml2-2.3.0.jar P:/Tools/xstr
 
 9. 清理`com.ciaoshen.leetcode.util`包
     * 只留最基本的数据结构
+        * (DONE) ListNode
+        * (DONE) TreeNode
+        * (DONE) NestedInteger
+        * (DONE) TreeLinkedNode
+        * (DONE) UndirectedGraphNode
+        * Interval
+        * RandomListNode
 
 10. 更好的github项目README.md ------------------------------------- [v0.5]
     * 加入徽章：shields.io
@@ -84,4 +91,6 @@ https://stackoverflow.com/questions/18216991/create-a-tag-in-github-repository
 16. properties怎么写多个参数值
 https://stackoverflow.com/questions/9737812/properties-file-with-a-list-as-the-value-for-an-individual-key
 
-17. 考虑用javascript在leetcode网页上加个按钮。抓取问题信息调用`leetcode-helper`创建项目骨架。
+17. 总结一篇生产环境的布局（最好先参考IDE的默认项目布局）
+
+18. 考虑用javascript在leetcode网页上加个按钮。抓取问题信息调用`leetcode-helper`创建项目骨架。
