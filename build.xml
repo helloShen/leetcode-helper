@@ -31,7 +31,7 @@ SOFTWARE.
         DEVELOP DIRECTORY LAYOUT
     ======================================================================
     -->
-    <property file="develop.layout.properties"/>
+    <property file="conf/develop.layout.properties"/>
 
 
     <!--
@@ -41,6 +41,7 @@ SOFTWARE.
     -->
     <property name="jar.name" value="leetcode-helper.jar"/>
     <path id="develop.classpath">
+        <pathelement path ="${basedir}"/>
         <pathelement path="${bin}"/>
         <pathelement path="${res}"/>
         <fileset dir="${lib}">
@@ -124,8 +125,8 @@ SOFTWARE.
     <target name="junit" depends="clean, compile.src, compile.junit">
         <echo>Running junit test ... </echo>
         <java classname="${junit.entry}">
-            <arg value="${builder.subpath}"/>
-            <!-- <arg value="${util.subpath}"/> -->
+            <!-- <arg value="${builder.subpath}"/> -->
+            <arg value="${util.subpath}"/>
             <classpath refid="develop.classpath"/>
         </java>
         <antcall target="clean"/>
