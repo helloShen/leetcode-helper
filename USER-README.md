@@ -330,3 +330,50 @@ Related Problems:
  Related Problems:
  * #341 - Flatten Nested List Iterator
  * #385 - Mini Parser
+
+ ### Interval
+
+```
+/**
+ * Always used to represent a period of time
+ *
+ * DEFINITION
+ * ===================================================
+ * 
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ *
+ * ===================================================
+ */
+```
+
+Related Problems:
+* #56 - Merge Intervals
+
+### RandomListNode
+
+```
+/**
+ * The random linked list is a singly linked list given 
+ * such that each node contains an additional random pointer 
+ * which could point to any node in the list or null.
+ * 
+ * DEFINITION
+ * ===================================================
+ * 
+ * class RandomListNode {
+ *     int label;
+ *     RandomListNode next, random;
+ *     RandomListNode(int x) { this.label = x; }
+ * };
+ *
+ * ===================================================
+ */
+```
+
+Related Problem:
+* #138 - Copy List with Random Pointer

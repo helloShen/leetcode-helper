@@ -48,15 +48,15 @@ Class-Path: . P:/Tools/xstream/1.4.2/lib/kxml2-2.3.0.jar P:/Tools/xstr
 
 8. (DONE) github上正式发布全部4个版本：0.1, 0.2, 0.3, 和 0.4
 
-9. 清理`com.ciaoshen.leetcode.util`包
-    * 只留最基本的数据结构
+9. (DONE) 清理`com.ciaoshen.leetcode.util`包
+    * (DONE) 只留最基本的数据结构
         * (DONE) ListNode
         * (DONE) TreeNode
         * (DONE) NestedInteger
         * (DONE) TreeLinkedNode
         * (DONE) UndirectedGraphNode
-        * Interval
-        * RandomListNode
+        * (DONE) Interval
+        * (DONE) RandomListNode
 
 10. 更好的github项目README.md ------------------------------------- [v0.5]
     * 加入徽章：shields.io
