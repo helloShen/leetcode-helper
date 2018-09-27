@@ -1,9 +1,9 @@
 # Only Focus on Solutions!
-https://img.shields.io/badge/<velocity>-<2.0>-<blue>.svg
-https://img.shields.io/badge/<ant>-<1.10.5>-<brightgreen>.svg
-https://img.shields.io/badge/<junit>-<4.10>-<brightgreen>.svg
-https://img.shields.io/badge/<log4j>-<1.2.17>-<brightgreen>.svg
-https://img.shields.io/badge/<slf4j>-<1.7.25>-<brightgreen>.svg
+![velocity](https://img.shields.io/badge/velocity-2.0-blue.svg)
+![ant](https://img.shields.io/badge/ant-1.10.5-brightgreen.svg)
+![junit](jhttps://img.shields.io/badge/junit-4.10-brightgreen.svg)
+![log4j](https://img.shields.io/badge/log4j-1.2.17-brightgreen.svg)
+![slf4j](https://img.shields.io/badge/slf4j-1.7.25-brightgreen.svg)
 
 **leetcode-helper** is a single-jar library that liberate you from setting up solution-test scaffold for each problem.
 
@@ -25,7 +25,7 @@ The generated skeletons:
 
 
 # A stable version v0.4 is just released
-https://travis-ci.com/helloShen/leetcode-helper.svg?branch=master
+![travis](https://travis-ci.com/helloShen/leetcode-helper.svg?branch=master)
 
 ### Updates
 1. Include templates and properties files into jar
@@ -204,6 +204,216 @@ ant test -Dproblem.name three_sum
 ant clean -Dproblem.name three_sum
 ```
 
+# `com.ciaoshen.leetcode.util` library
+`com.ciaoshen.leetcode.util` library provide only fundamental features,
+* member fields
+* constructor
+* toString() serialization
+
+### TreeLinkNode
+```
+/**
+ * A binary tree with next pointer
+ * Populate each next pointer to point to its next right node.
+ * If there is no next right node, the next pointer should be set to NULL.
+ * EX:
+ *           1 -> NULL
+ *         /  \
+ *        2 -> 3 -> NULL
+ *       / \  / \
+ *      4->5->6->7 -> NULL
+ *
+ * DEFINITION:
+ * ======================================
+ *
+ * public class TreeLinkNode {
+ *     int val;
+ *     TreeLinkNode left, right, next;
+ *     TreeLinkNode(int x) { val = x; }
+ * }
+ *
+ * ======================================
+ *
+ */
+```
+
+Related Problems:
+* #116 - Populating Next Right Pointers in Each Node
+
+### UndirectedGraphNode
+
+```
+/**
+ * Each node in the graph contains a label (int)
+ * and a list (List[UndirectedGraphNode]) of its neighbors.
+ * EX:
+ *          1
+ *         / \
+ *        /   \
+ *       0 --- 2
+ *            / \
+ *            \_/
+ *
+ * DEFINITION:
+ * ===========================================================
+ *
+ * class UndirectedGraphNode {
+ *     int label;
+ *     List<UndirectedGraphNode> neighbors;
+ *     UndirectedGraphNode(int x) {
+ *         label = x;
+ *         neighbors = new ArrayList<UndirectedGraphNode>();
+ *     }
+ * };
+ *
+ * ===========================================================
+ */
+```
+
+Related Problems:
+* #133 - Clone Graph
+
+### TreeNode
+```
+/**
+ * TreeNode refers to the node of a binary tree.
+ * Composed of it's value and left child and right child.
+ *              1
+ *             /  \
+ *            2    3
+ *           / \  / \
+ *          4  5  6  7
+ *     
+ * DEFINITION:
+ * =================================
+ *
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ *
+ * =================================
+ */
+ ```
+
+ ### ListNode
+```
+/**
+ * ListNode is Singly-Linked List
+ * ex: 1->2->3->4->5
+ *     
+ * DEFINITION:
+ * =================================
+ *
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ *
+ * =================================
+ */
+ ```
+
+ Related Problems:
+ * #148 - Sort List
+
+
+ ### NestedInteger
+
+ ```
+ /**
+ * NestedInteger can hold a single integer, or a nested list, which looks like:
+ *    [[1,1],2,[1,1]]
+ *    [1,[4,[6]]]
+ *
+ * INTERFACE that allows for creating nested lists.
+ * ===================================================================================================
+ *
+ * public interface NestedInteger {
+ *     // Constructor initializes an empty nested list.
+ *     public NestedInteger();
+ *
+ *     // Constructor initializes a single integer.
+ *     public NestedInteger(int value);
+ *
+ *     // @return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     public boolean isInteger();
+ *
+ *     // @return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // Return null if this NestedInteger holds a nested list
+ *     public Integer getInteger();
+ *
+ *     // Set this NestedInteger to hold a single integer.
+ *     public void setInteger(int value);
+ *
+ *     // Set this NestedInteger to hold a nested list and adds a nested integer to it.
+ *     public void add(NestedInteger ni);
+ *
+ *     // @return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // Return null if this NestedInteger holds a single integer
+ *     public List<NestedInteger> getList();
+ * }
+ *
+ * ===================================================================================================
+ *
+ * Note:
+ * Constructor is not exposed to user to create new instances.
+ */
+ ```
+
+ Related Problems:
+ * #341 - Flatten Nested List Iterator
+ * #385 - Mini Parser
+
+ ### Interval
+
+```
+/**
+ * Always used to represent a period of time
+ *
+ * DEFINITION
+ * ===================================================
+ *
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ *
+ * ===================================================
+ */
+```
+
+Related Problems:
+* #56 - Merge Intervals
+
+### RandomListNode
+
+```
+/**
+ * The random linked list is a singly linked list given
+ * such that each node contains an additional random pointer
+ * which could point to any node in the list or null.
+ *
+ * DEFINITION
+ * ===================================================
+ *
+ * class RandomListNode {
+ *     int label;
+ *     RandomListNode next, random;
+ *     RandomListNode(int x) { this.label = x; }
+ * };
+ *
+ * ===================================================
+ */
+```
+
+Related Problem:
+* #138 - Copy List with Random Pointer
 
 # Version History
 
