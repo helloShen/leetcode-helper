@@ -5,7 +5,7 @@
 ![log4j](https://img.shields.io/badge/log4j-1.2.17-brightgreen.svg)
 ![slf4j](https://img.shields.io/badge/slf4j-1.7.25-brightgreen.svg)
 
-**leetcode-helper** is a single-jar library that liberate you from setting up solution-test scaffold for each problem. **Junit 4**, **log4j**, **slf4j** are integrated.
+**leetcode-helper** is a single-jar library that liberate you from setting up solution-test scaffold for each problem. Generate solution/test skeletons, compile, test by commands on one line. **Junit 4**, **log4j**, **slf4j** are integrated. `com.ciaoshen.leetcode.util` package provide simplest implementations for 7 commonly used data structures such as `TreeNode`, `ListNode`, etc.
 
 ### Configure a problem
 ![leetcode-helper-config](src/main/resources/gif/leetcode-helper-config.gif)
