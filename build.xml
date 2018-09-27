@@ -158,7 +158,7 @@ SOFTWARE.
         <echo>Cleaning all generated .class file and .java skeleton!</echo>
         <delete includeemptydirs="true"> -->
         <echo>Cleaning all generated .class file and .java skeleton!</echo>
-        <delete>
+        <delete failonerror="false">
             <fileset dir="${bin}"/>
             <fileset dir="${src}">
                 <patternset refid="not.sourcecode"/>
