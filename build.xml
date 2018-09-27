@@ -154,9 +154,11 @@ SOFTWARE.
         <condition property="do.abort">
           <equals arg1="n" arg2="${do.delete}"/>
         </condition>
-        <fail if="do.abort">Delete operation aborted by user.</fail> -->
+        <fail if="do.abort">Delete operation aborted by user.</fail>
         <echo>Cleaning all generated .class file and .java skeleton!</echo>
-        <delete includeemptydirs="true">
+        <delete includeemptydirs="true"> -->
+        <echo>Cleaning all generated .class file and .java skeleton!</echo>
+        <delete>
             <fileset dir="${bin}"/>
             <fileset dir="${src}">
                 <patternset refid="not.sourcecode"/>
