@@ -1,7 +1,7 @@
 # Only Focus on Solutions!
 ![velocity](https://img.shields.io/badge/velocity-2.0-blue.svg)
 ![ant](https://img.shields.io/badge/ant-1.10.5-brightgreen.svg)
-![junit](jhttps://img.shields.io/badge/junit-4.10-brightgreen.svg)
+![junit](https://img.shields.io/badge/junit-4.10-brightgreen.svg)
 ![log4j](https://img.shields.io/badge/log4j-1.2.17-brightgreen.svg)
 ![slf4j](https://img.shields.io/badge/slf4j-1.7.25-brightgreen.svg)
 
