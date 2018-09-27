@@ -95,7 +95,7 @@ SOFTWARE.
 
     <!-- clean everything about this problem -->
     <target name="clean">
-        <input message="Delete all source of problem ${problem} (y/n)?"
+        <input message="Delete all source of problem ${problem.name} (y/n)?"
                validargs="y,n"
                addproperty="do.delete"/>
         <condition property="do.abort">

@@ -93,4 +93,11 @@ https://stackoverflow.com/questions/9737812/properties-file-with-a-list-as-the-v
 
 17. 总结一篇生产环境的布局（最好先参考IDE的默认项目布局）
 
+18. 怎么美化github项目
+* shields.io: https://shields.io/#/
+* travis ci: https://travis-ci.com 
+* gif录屏: 
+
+不错的文章： https://www.jianshu.com/p/ae6749858f28
+
 18. 考虑用javascript在leetcode网页上加个按钮。抓取问题信息调用`leetcode-helper`创建项目骨架。

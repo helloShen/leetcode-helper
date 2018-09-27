@@ -1,3 +1,40 @@
+# Only Focus on Solutions!
+https://img.shields.io/badge/<velocity>-<2.0>-<blue>.svg
+https://img.shields.io/badge/<ant>-<1.10.5>-<brightgreen>.svg
+https://img.shields.io/badge/<junit>-<4.10>-<brightgreen>.svg
+https://img.shields.io/badge/<log4j>-<1.2.17>-<brightgreen>.svg
+https://img.shields.io/badge/<slf4j>-<1.7.25>-<brightgreen>.svg
+
+**leetcode-helper** is a single-jar library that liberate you from setting up solution-test scaffold for each problem.
+
+### Configure a problem
+![leetcode-helper-config](src/main/resources/gif/leetcode-helper-config.gif)
+
+### Command on one line to generate Solution/Test skeleton
+![leetcode-helper-generate](src/main/resources/gif/leetcode-helper-generate.gif)
+
+The generated skeletons:
+![leetcode-helper-skeleton](src/main/resources/gif/leetcode-helper-skeleton.gif)
+
+### Commend on one line to compile and run JUnit tests
+![leetcode-helper-compile-test](src/main/resources/gif/leetcode-helper-compile-test.gif)
+
+### Commend on one line to remove sources
+![leetcode-helper-clean](src/main/resources/gif/leetcode-helper-clean.gif)
+
+
+
+# A stable version v0.4 is just released
+https://travis-ci.com/helloShen/leetcode-helper.svg?branch=master
+
+### Updates
+1. Include templates and properties files into jar
+2. Load all resources from classpath
+3. Migrate from `java.io` to `java.nio`
+4. Support slf4j facade for log4j
+5. Reinforce JUnit test template
+6. Update `build.xml` scaffold
+
 # Installation
 Unachieve the `.tar`or `.tar.gz` or `.zip` file. Copy everything in `leetcode-helper-vX.X` folder to your work directory. If your work directory was clean, it will look like,
 
@@ -186,4 +223,3 @@ ant clean -Dproblem.name three_sum
 4. Support slf4j facade for log4j
 5. Reinforce JUnit test template
 6. Update `build.xml` scaffold
-
