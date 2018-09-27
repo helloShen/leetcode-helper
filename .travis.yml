@@ -1,0 +1,9 @@
+langurage: java
+
+install: true
+
+script:
+- ant test
+- ant test.jar
+- ant release
+- ant clean.all
