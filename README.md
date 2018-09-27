@@ -5,7 +5,7 @@
 ![log4j](https://img.shields.io/badge/log4j-1.2.17-brightgreen.svg)
 ![slf4j](https://img.shields.io/badge/slf4j-1.7.25-brightgreen.svg)
 
-**leetcode-helper** is a single-jar library that liberate you from setting up solution-test scaffold for each problem.
+**leetcode-helper** is a single-jar library that liberate you from setting up solution-test scaffold for each problem. **Junit 4**, **log4j**, **slf4j** are integrated.
 
 ### Configure a problem
 ![leetcode-helper-config](src/main/resources/gif/leetcode-helper-config.gif)
