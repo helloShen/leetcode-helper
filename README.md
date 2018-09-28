@@ -433,3 +433,6 @@ Related Problem:
 4. Support slf4j facade for log4j
 5. Reinforce JUnit test template
 6. Update `build.xml` scaffold
+
+### v0.5
+1. Simplify `com.ciaoshen.leetcode.util` package

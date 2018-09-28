@@ -187,7 +187,9 @@ SOFTWARE.
                 <include name="com/ciaoshen/leetcode/helper/*.class"/>
                 <include name="com/ciaoshen/leetcode/util/*.class"/>
             </fileset>
-            <fileset dir="${res}"/>
+            <fileset dir="${res}">
+                <exclude name="gif/*"/>
+            </fileset>
             <zipgroupfileset dir="lib"> 
                 <include name="*.jar"/> 
                 <exclude name="gson-2.8.5.jar"/>
@@ -263,7 +265,7 @@ SOFTWARE.
     -->
     <!-- release directory -->
     <property name="release.root" value="release"/>
-    <property name="release.version" value="v0.4"/>
+    <property name="release.version" value="v0.5"/>
     <property name="release.name" value="leetcode-helper-${release.version}"/>
 
     <!-- release .tar, tar.gz, .zip -->
