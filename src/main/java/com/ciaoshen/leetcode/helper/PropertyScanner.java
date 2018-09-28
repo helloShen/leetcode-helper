@@ -28,6 +28,8 @@ import java.util.Properties;
 import java.io.IOException;
 // java.io
 import java.io.InputStream;
+// slf4j
+import org.slf4j.Logger;
 
 /**
  * Given the name of properties file, return the Properties object.
@@ -36,15 +38,18 @@ import java.io.InputStream;
  */
 public class PropertyScanner {
 
+    // use the members of ProblemBuilder
+    private static final Logger LOG = ProblemBuilder.LOGGER;
     // only PropertyScanner knows where to load ".properties".
-    static final String CONF = ProblemBuilder.SEP + "conf";
+    static final String CONF = "/conf";
+
 
     /**
      * @param propertyName such as: "layout.properties"
      * @return A Properties object.
      */
     public static Properties load(String fileName) {
-        String fullName = CONF + ProblemBuilder.SEP + fileName;
+        String fullName = CONF + "/" + fileName;
         InputStream stream = PropertyScanner.class.getResourceAsStream(fullName);
         Properties props = new Properties();
         try {

@@ -32,7 +32,6 @@ import java.io.InputStream;
 import java.io.IOException;
 // slf4j
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -44,16 +43,16 @@ import org.slf4j.LoggerFactory;
  */
 class TemplateSeeker {
 
+    // use the members of ProblemBuilder
+    private static final Logger LOG = ProblemBuilder.LOGGER;
     /** TemplateSeeker is a stupid robot.
     The only thing he knows is to scan all velocity ".vm" templates under this direction.
     This is a relative path in classpath, which will be provided to Class.getResource() method. */
-    private static final String TPL_DIR = ProblemBuilder.SEP + "template"; // Class.getResource() need leading slash to search from the root of classpath
-    private static final String TPL_PROPS = ProblemBuilder.SEP + "conf" + ProblemBuilder.SEP + "templates.properties";
+    private static final String TPL_DIR = "/template"; // Class.getResource() need leading slash to search from the root of classpath
+    private static final String TPL_PROPS = "/conf/templates.properties";
     private static final String KEY = "templates";
     private static final String SPLITER = ",";
-
-    // call from slf4j facade
-    private static final Logger LOGGER = LoggerFactory.getLogger(TemplateSeeker.class);
+    
 
     public static List<String> getTemplates() {
         List<String> templates = new ArrayList<>();
@@ -64,15 +63,15 @@ class TemplateSeeker {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("properties = {}", props.getProperty(KEY));
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("properties = {}", props.getProperty(KEY));
         }
         String[] values = props.getProperty(KEY).split(SPLITER);
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("property values = {}", Arrays.toString(values));
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("property values = {}", Arrays.toString(values));
         }
         for (String value : values) {
-            templates.add(TPL_DIR + ProblemBuilder.SEP + value.trim());
+            templates.add(TPL_DIR + "/" + value.trim());
         }
         return templates;
     }

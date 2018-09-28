@@ -32,7 +32,6 @@ SOFTWARE.
     ======================================================================
     -->
     <property file="conf/develop.layout.properties"/>
-    <property name="sep" value="${file.separator}"/>
 
     <!--
     ======================================================================
@@ -65,7 +64,7 @@ SOFTWARE.
         <filterchain>
             <tokenfilter>
                 <filetokenizer/>
-                <replacestring from="." to="${sep}"/>
+                <replacestring from="." to="/"/>
             </tokenfilter>
         </filterchain>
     </loadresource>
@@ -77,18 +76,18 @@ SOFTWARE.
         <filterchain>
             <tokenfilter>
                 <filetokenizer/>
-                <replacestring from="." to="${sep}"/>
+                <replacestring from="." to="/"/>
             </tokenfilter>
         </filterchain>
     </loadresource>
     <!-- source code collection -->
     <patternset id="sourcecode">
-        <include name="${builder.subpath}${sep}*.java"/>
-        <include name="${util.subpath}${sep}*.java"/>
+        <include name="${builder.subpath}/*.java"/>
+        <include name="${util.subpath}/*.java"/>
     </patternset>
     <patternset id="not.sourcecode">
-        <exclude name="${builder.subpath}${sep}*.java"/>
-        <exclude name="${util.subpath}${sep}*.java"/>
+        <exclude name="${builder.subpath}/*.java"/>
+        <exclude name="${util.subpath}/*.java"/>
     </patternset>
     <!-- compile main source code -->
     <target name="compile.src">
@@ -177,18 +176,18 @@ SOFTWARE.
     ======================================================================
     -->
     <!-- deploy directory -->
-    <property name="jar.file" value="${lib}${sep}${jar.name}"/>
+    <property name="jar.file" value="${lib}/${jar.name}"/>
 
     <!-- packaging program into leetcode-helper.jar file -->
     <target name="jar" depends="clean.jar, clean, compile.src">
         <mkdir dir="${lib}"/>
         <jar destfile="${jar.file}">
             <fileset dir="${bin}">
-                <include name="com${sep}ciaoshen${sep}leetcode${sep}helper${sep}*.class"/>
-                <include name="com${sep}ciaoshen${sep}leetcode${sep}util${sep}*.class"/>
+                <include name="com/ciaoshen/leetcode/helper/*.class"/>
+                <include name="com/ciaoshen/leetcode/util/*.class"/>
             </fileset>
             <fileset dir="${res}">
-                <exclude name="gif${sep}*"/>
+                <exclude name="gif/*"/>
             </fileset>
             <zipgroupfileset dir="lib"> 
                 <include name="*.jar"/> 
@@ -279,18 +278,18 @@ SOFTWARE.
     <target name="release.prepare">
         <mkdir dir="${release.root}"/>
         <copy todir="${release.root}">
-            <file name="${basedir}${sep}build-release.xml"/>
+            <file name="${basedir}/build-release.xml"/>
             <globmapper from="build-release.*" to="build.*"/>
         </copy>
         <copy todir="${release.root}">
-            <file name="${basedir}${sep}problem.properties"/>
+            <file name="${basedir}/problem.properties"/>
         </copy>
         <copy todir="${release.root}">
-            <file name="${basedir}${sep}USER-README.md"/>
+            <file name="${basedir}/USER-README.md"/>
             <globmapper from="USER-README.*" to="README.*"/>
         </copy>
-        <mkdir dir="${release.root}${sep}${lib}"/>
-        <copy file="${jar.file}" todir="${release.root}${sep}${lib}"/>
+        <mkdir dir="${release.root}/${lib}"/>
+        <copy file="${jar.file}" todir="${release.root}/${lib}"/>
     </target>
     
     <!-- predefine group of files to be included in release -->
@@ -302,22 +301,22 @@ SOFTWARE.
 
     <!-- achieve to tar -->
     <target name="release.tar">
-        <tar destfile="${release.root}${sep}${release.name}.tar">
+        <tar destfile="${release.root}/${release.name}.tar">
             <tarfileset dir="${release.root}" prefix="">
                 <patternset refid="release.at.root"/>
             </tarfileset> 
-            <tarfileset dir="${release.root}${sep}${lib}" prefix="lib${sep}"/>
+            <tarfileset dir="${release.root}/${lib}" prefix="lib/"/>
         </tar>
-        <gzip destfile="${release.root}${sep}${release.name}.tar.gz" src="${release.root}${sep}${release.name}.tar"/>
+        <gzip destfile="${release.root}/${release.name}.tar.gz" src="${release.root}/${release.name}.tar"/>
     </target>
 
     <!-- compress into zip -->
     <target name="release.zip">
-        <zip destfile="${release.root}${sep}${release.name}.zip" update="true">
+        <zip destfile="${release.root}/${release.name}.zip" update="true">
             <zipfileset dir="${release.root}" prefix="">
                 <patternset refid="release.at.root"/>
             </zipfileset>
-            <zipfileset dir="${release.root}${sep}${lib}" prefix="lib${sep}"/>
+            <zipfileset dir="${release.root}/${lib}" prefix="lib/"/>
         </zip>
     </target>
 
@@ -330,13 +329,13 @@ SOFTWARE.
             </fileset>
         </delete>
         <delete includeemptydirs="true" failonerror="false">
-            <fileset dir="${release.root}${sep}${lib}"/>
+            <fileset dir="${release.root}/${lib}"/>
         </delete>
         <antcall target="clean.jar"/>
     </target>
     <!-- delete last release -->
     <target name="clean.release">
-        <echo>Delete zip file.</echo>
+        <echo>Delete all release achieves.</echo>
         <delete includeemptydirs="true" failonerror="false">
             <fileset dir="${release.root}"/>
         </delete>

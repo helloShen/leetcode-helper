@@ -67,8 +67,6 @@ public class ProblemBuilder {
     private static final String MEMBERS = "members";
     /** extension of java source file */
     private static final String JAVA_EXP = "java";
-    static final String HARD_SEP = "/";                     // separator in properties files
-    static final String SEP = File.separator;           //system-dependent separator as string
 
     // user provides 5 important arguments to describe a problem
     String root;            // args[0]: user working directory where "build.xml" locate (absolute path)
@@ -107,17 +105,15 @@ public class ProblemBuilder {
         }
         // PropertyScanner scan the other properties 
         Properties layoutProps = PropertyScanner.load(LAYOUT);
-        src = layoutProps.getProperty(SRC).replaceAll(HARD_SEP, SEP);
-        testSrc = layoutProps.getProperty(TEST_SRC).replaceAll(HARD_SEP, SEP);
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("src = {}", src);
             LOGGER.debug("testSrc = {}", testSrc);
         }
 
         // construct full-directory 
-        pckPath = pck.replaceAll("\\.",SEP); // package sub-path with '/' substituted for '.'
-        solutionDir = root + SEP + src + SEP + pckPath + SEP + problemName;
-        testDir = root + SEP + testSrc + SEP + pckPath + SEP + problemName;
+        pckPath = pck.replaceAll("\\.","/"); // package sub-path with '/' substituted for '.'
+        solutionDir = root + "/" + src + "/" + pckPath + "/" + problemName;
+        testDir = root + "/" + testSrc + "/" + pckPath + "/" + problemName;
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("pckPath = {}", pckPath);
             LOGGER.debug("solutionDir = {}", solutionDir);
@@ -172,12 +168,12 @@ public class ProblemBuilder {
      @ @return absolute path of generated solution skeleton
      */
     String buildSourcePath(String path) {
-        String fullFileName = path.substring(path.lastIndexOf(SEP) + 1, path.length()); 
+        String fullFileName = path.substring(path.lastIndexOf("/") + 1, path.length()); 
         String fileName = fullFileName.substring(0, fullFileName.indexOf(".")); 
         if (fileName.length()>= 4 && fileName.substring(0,4).equals("Test")) {
-            return testDir + SEP + fileName + "." + JAVA_EXP;
+            return testDir + "/" + fileName + "." + JAVA_EXP;
         } else {
-            return solutionDir + SEP + fileName + "." + JAVA_EXP;
+            return solutionDir + "/" + fileName + "." + JAVA_EXP;
         }
     }
 
@@ -187,7 +183,7 @@ public class ProblemBuilder {
      * @return A FileWriter decorated by BufferedWriter
      */
     Writer getFileWriter(String path) {
-        Path directory = Paths.get(path.substring(0, path.lastIndexOf(SEP))); 
+        Path directory = Paths.get(path.substring(0, path.lastIndexOf("/"))); 
         try {
             if (!Files.exists(directory)) {
                 Files.createDirectories(directory);
@@ -200,7 +196,7 @@ public class ProblemBuilder {
     }
 
     // call from slf4j facade
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProblemBuilder.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(ProblemBuilder.class);
 
     public static void main(String[] args) {
         if (args.length != 5) {

@@ -24,12 +24,13 @@ The generated skeletons:
 
 
 
-# A stable version v0.51 is just released
+# The newest version is v0.51
 ![travis](https://travis-ci.com/helloShen/leetcode-helper.svg?branch=master)
 
 * [leetcode-helper-v0.51.tar](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.51.tar)
 * [leetcode-helper-v0.51.tar.gz](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.51.tar.gz)
 * [leetcode-helper-v0.51.zip](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.51.zip)
+
 
 ### Updates
 1. Include templates and properties files into jar
@@ -39,7 +40,6 @@ The generated skeletons:
 5. Reinforce JUnit test template
 6. Update `build.xml` scaffold
 7. Simplify `com.ciaoshen.leetcode.util` package
-8. Compatible with Windows
 
 # Installation
 Unachieve the `.tar`or `.tar.gz` or `.zip` file. Copy everything in `leetcode-helper-vX.X` folder to your work directory. If your work directory was clean, it will look like,
@@ -53,13 +53,18 @@ root
 └── problem.properties
 ```
 
-# Usage
+### Need Ant
 Make sure you have installed `Ant`. Use `-version` option to check,
 ```
 ant -version
 ```
 
 If not, get the last version here --> [【Installing Apache Ant】](https://ant.apache.org/manual/install.html)
+
+# Usage
+
+### Windows User please use `PowerShell` to launch the script
+Do NOT use `cmd.exe`. It doesn't work with the paths using forward-slash("/").
 
 ### Configure problem information
 To solve for example the problem "two sum", open `problem.properties` file, configure the "problem.name" field as below,

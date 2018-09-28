@@ -62,8 +62,14 @@ Class-Path: . P:/Tools/xstream/1.4.2/lib/kxml2-2.3.0.jar P:/Tools/xstr
     * (DONE) 加入徽章：shields.io
     * (DONE) travis、coverage、npm等等
 
-11. 兼容Windows，解决斜杠和反斜杠的问题
+11. (DONE) 兼容Windows，解决斜杠和反斜杠的问题 -------------------------------[v0.51]
 https://stackoverflow.com/questions/8075373/file-separator-vs-filesystem-getseparator-vs-system-getpropertyfile-separato
+jar包中的路径分隔符默认为"/"，就算到了Windows系统也是。不需要换。我只需要管jar文件外面的系统路径。
+https://stackoverflow.com/questions/24749007/how-to-use-file-separator-for-a-jar-file-resource
+zip压缩包必须用正斜杠，不能用反斜杠，
+https://stackoverflow.com/questions/13846000/file-separators-of-path-name-of-zipentry
+Windows `cmd.exe`不兼容UNIX风格的斜杠分隔符"/"，必须用`PowerShell`运行，
+https://stackoverflow.com/questions/10523708/why-does-the-cmd-exe-shell-on-windows-fail-with-paths-using-a-forward-slash
 
 12. 推广项目：知乎，一亩三分地
 
