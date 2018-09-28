@@ -2,6 +2,11 @@ langurage: java
 
 install: true
 
+os:
+- linux
+- osx
+- windows
+
 script:
 - ant test
 - ant test.jar

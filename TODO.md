@@ -62,44 +62,54 @@ Class-Path: . P:/Tools/xstream/1.4.2/lib/kxml2-2.3.0.jar P:/Tools/xstr
     * (DONE) 加入徽章：shields.io
     * (DONE) travis、coverage、npm等等
 
-11. 推广项目：知乎，一亩三分地
+11. 兼容Windows，解决斜杠和反斜杠的问题
+https://stackoverflow.com/questions/8075373/file-separator-vs-filesystem-getseparator-vs-system-getpropertyfile-separato
 
-12. 写一篇”怎么用ClassLoader从classpath读取资源“
+12. 推广项目：知乎，一亩三分地
+
+22. 写一篇”怎么用ClassLoader从classpath读取资源“
 https://stackoverflow.com/questions/6608795/what-is-the-difference-between-class-getresource-and-classloader-getresource
 https://stackoverflow.com/questions/3861989/preferred-way-of-loading-resources-in-java
 
-13. 写一篇关于nio的心得
+23. 写一篇关于nio的心得
 
-14. 上传一个通用的ant`build.xml`到代码库。
+24. 上传一个通用的ant`build.xml`到代码库。
 
-15. 写一个ant怎么打包jar，tar, tar.gz, zip的笔记,
+25. 写一个ant怎么打包jar，tar, tar.gz, zip的笔记,
 https://stackoverflow.com/questions/515428/clean-way-to-combine-multiple-jars-preferably-using-ant
 https://ant.apache.org/manual/Tasks/tar.html
 https://ant.apache.org/manual/Tasks/zip.html
 https://www.pharmasoft.be/7z/
 https://www.zhihu.com/question/26026741
 
-16. log4j最佳实践（或者slf4j + logback）
+26. log4j最佳实践（或者slf4j + logback）
 日志库的前世今生
 https://zhuanlan.zhihu.com/p/24272450
 https://zhuanlan.zhihu.com/p/24275518
 lsf4j和log4j的关系（桥接）
 http://blog.51cto.com/woshixy/1371420
 
-17. 记录：怎么在github上面release，打tag:
+27. 记录：怎么在github上面release，打tag:
 https://stackoverflow.com/questions/1028649/how-do-you-rename-a-git-tag/5719854#5719854
 https://stackoverflow.com/questions/18216991/create-a-tag-in-github-repository
+github上怎么删掉前一个commit
+https://stackoverflow.com/questions/448919/how-can-i-remove-a-commit-on-github
+github上删除一个tag
+* git push origin :tagname
+github上上传本地tag
+* git push origin --tags
 
-18. properties怎么写多个参数值
+
+28. properties怎么写多个参数值
 https://stackoverflow.com/questions/9737812/properties-file-with-a-list-as-the-value-for-an-individual-key
 
-19. 总结一篇生产环境的布局（最好先参考IDE的默认项目布局）
+29. 总结一篇生产环境的布局（最好先参考IDE的默认项目布局）
 
-20. 怎么美化github项目
+30. 怎么美化github项目
 * shields.io: https://shields.io/#/
 * travis ci: https://travis-ci.com 
 * gif录屏: https://giphy.com/apps/giphycapture
 
 不错的文章： https://www.jianshu.com/p/ae6749858f28
 
-21. 考虑用javascript在leetcode网页上加个按钮。抓取问题信息调用`leetcode-helper`创建项目骨架。
+31. 考虑用javascript在leetcode网页上加个按钮。抓取问题信息调用`leetcode-helper`创建项目骨架。
