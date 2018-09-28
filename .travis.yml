@@ -1,6 +1,7 @@
 langurage: java
 
-install: true
+install: 
+- brew install ant
 
 os:
 - linux
