@@ -1,11 +1,9 @@
 langurage: java
 
-install: 
-- brew install ant
+install: true
 
 os:
 - linux
-- osx
 - windows
 
 script:
