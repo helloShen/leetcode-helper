@@ -24,8 +24,12 @@ The generated skeletons:
 
 
 
-# A stable version v0.5 is just released
+# A stable version v0.51 is just released
 ![travis](https://travis-ci.com/helloShen/leetcode-helper.svg?branch=master)
+
+* [leetcode-helper-v0.51.tar](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.51.tar)
+* [leetcode-helper-v0.51.tar.gz](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.51.tar.gz)
+* [leetcode-helper-v0.51.zip](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.51.zip)
 
 ### Updates
 1. Include templates and properties files into jar
@@ -34,6 +38,8 @@ The generated skeletons:
 4. Support slf4j facade for log4j
 5. Reinforce JUnit test template
 6. Update `build.xml` scaffold
+7. Simplify `com.ciaoshen.leetcode.util` package
+8. Compatible with Windows
 
 # Installation
 Unachieve the `.tar`or `.tar.gz` or `.zip` file. Copy everything in `leetcode-helper-vX.X` folder to your work directory. If your work directory was clean, it will look like,
