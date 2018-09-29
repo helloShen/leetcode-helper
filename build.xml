@@ -124,8 +124,8 @@ SOFTWARE.
     <target name="junit" depends="clean, compile.src, compile.junit">
         <echo>Running junit test ... </echo>
         <java classname="${junit.entry}">
-            <!-- <arg value="${builder.subpath}"/> -->
-            <arg value="${util.subpath}"/>
+            <arg value="${builder.subpath}"/>
+            <!-- <arg value="${util.subpath}"/> -->
             <classpath refid="develop.classpath"/>
         </java>
         <antcall target="clean"/>
@@ -157,7 +157,7 @@ SOFTWARE.
         <echo>Cleaning all generated .class file and .java skeleton!</echo>
         <delete includeemptydirs="true"> -->
         <echo>Cleaning all generated .class file and .java skeleton!</echo>
-        <delete failonerror="false">
+        <delete includeemptydirs="true" failonerror="false">
             <fileset dir="${bin}"/>
             <fileset dir="${src}">
                 <patternset refid="not.sourcecode"/>

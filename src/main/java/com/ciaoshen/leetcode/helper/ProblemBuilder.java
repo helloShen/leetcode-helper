@@ -105,6 +105,8 @@ public class ProblemBuilder {
         }
         // PropertyScanner scan the other properties 
         Properties layoutProps = PropertyScanner.load(LAYOUT);
+        src = layoutProps.getProperty(SRC);
+        testSrc = layoutProps.getProperty(TEST_SRC);
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("src = {}", src);
             LOGGER.debug("testSrc = {}", testSrc);
