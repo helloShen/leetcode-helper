@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 @RunWith(Parameterized.class)
 public class Tester {
 
-    /**=========================== 【static for different test cases】 ============================== */
+    /**=========================== static for different test cases ============================== */
 
     // Solution to test
     private static Solution solution;
@@ -55,7 +55,7 @@ public class Tester {
 
 
 
-    /**=========================== 【for each test case】 ============================== */
+    /**=========================== for each test case ============================== */
 
     /** Parameters for each test */
     // private ;                       // parameter 1
