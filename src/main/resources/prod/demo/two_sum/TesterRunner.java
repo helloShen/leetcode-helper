@@ -1,11 +1,11 @@
 /**
- * Leetcode - ${problem}
+ * Leetcode - i_love_code
  */
-package ${pck}.${problem};
+package com.leetcode.i_love_code;
 
 // basic util
 import java.util.*;
-import ${util}.*;
+import com.ciaoshen.leetcode.util.*;
 // leetcode-helper library
 import com.ciaoshen.leetcode.helper.PropertyScanner;
 // junit 
@@ -19,6 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+/**
+ * In most case you DO NOT NEED TO CHANGE ANYTHING in this class.
+ */
 public class TesterRunner {
 
     // use this Object to print the log (call from slf4j facade)

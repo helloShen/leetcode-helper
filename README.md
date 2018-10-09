@@ -24,31 +24,30 @@ The generated skeletons:
 
 
 
-# The newest version is v0.51
+# The newest version is v0.55
 ![travis](https://travis-ci.com/helloShen/leetcode-helper.svg?branch=master)
 
-* [leetcode-helper-v0.51.tar](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.51.tar)
-* [leetcode-helper-v0.51.tar.gz](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.51.tar.gz)
-* [leetcode-helper-v0.51.zip](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.51.zip)
+* [leetcode-helper-v0.55.tar](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.55.tar)
+* [leetcode-helper-v0.55.tar.gz](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.55.tar.gz)
+* [leetcode-helper-v0.55.zip](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.55.zip)
 
 
 ### Updates
-1. Include templates and properties files into jar
-2. Load all resources from classpath
-3. Migrate from `java.io` to `java.nio`
-4. Support slf4j facade for log4j
-5. Reinforce JUnit test template
-6. Update `build.xml` scaffold
-7. Simplify `com.ciaoshen.leetcode.util` package
+1. Prompt for user input before generating skeleton if previous works for this problem exist.
+2. Add a simple demo for new user to getting started.
+3. Put some effort in continuous integrating and continuous delivery.
 
 # Installation
-Unachieve the `.tar`or `.tar.gz` or `.zip` file. Copy everything in `leetcode-helper-vX.X` folder to your work directory. If your work directory was clean, it will look like,
+Unarchieve the `.tar`or `.tar.gz` or `.zip` file. Copy everything in `leetcode-helper-vX.X` folder to your work directory. If your work directory was clean, it will look like,
 
 ```
 root
 ├── README.md
 ├── build.xml
-├── lib
+├── demo/
+│   └── two_sum/
+│       └── ...
+├── lib/
 │   └── leetcode-helper.jar
 └── problem.properties
 ```
@@ -99,6 +98,9 @@ you'll get 5 skeletons, 3 under `./src/main/java` directory, 2 in `./src/test/ja
 root
 ├── README.md
 ├── build.xml
+├── demo/
+│   └── two_sum/
+│       └── ...
 ├── lib
 │   └── leetcode-helper.jar
 ├── problem.properties
@@ -170,6 +172,9 @@ root
 │                            ├── Tester.class
 │                            └── TesterRunner.class
 ├── build.xml
+├── demo/
+│   └── two_sum/
+│       └── ...
 ├── lib
 │   └── leetcode-helper.jar
 ├── problem.properties
@@ -431,6 +436,36 @@ Related Problems:
 Related Problem:
 * #138 - Copy List with Random Pointer
 
+### Node
+
+```
+/**
+ * Binary Search Tree looks like:
+ *           4
+ *          / \
+ *         2   5
+ *        / \
+ *       1   3
+ * 
+ * DEFINITION
+ * ===================================================
+ *
+ *  class Node {
+ *      public int val;
+ *      public Node left, right;
+ *
+ *      public Node() {}
+ *      public Node(int v, Node l, Node r) {
+ *          val = v; left = l; right = r;
+ *      }
+ *  }
+ *
+ * ===================================================
+ */
+```
+Related Problems:
+* #426 - Convert Binary Search Tree to Sorted Doubly Linked List
+
 # Version History
 
 ### v0.2
@@ -455,3 +490,8 @@ Related Problem:
 
 ### v0.51
 1. Compatible with Windows
+
+### v0.55
+1. Prompt for user input before generating skeleton if previous works for this problem exist.
+2. Add a simple demo for new user to getting started.
+3. Put some effort in continuous integrating and continuous delivery.

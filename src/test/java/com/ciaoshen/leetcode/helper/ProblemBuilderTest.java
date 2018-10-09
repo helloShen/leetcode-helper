@@ -23,24 +23,22 @@
  */
 package com.ciaoshen.leetcode.helper;
 
-// JUnit & hamcrest 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
-// java.io 
+
 import java.io.File;
 import java.io.Writer;
 import java.io.BufferedReader;
 import java.io.IOException;
-// java.nio.file 
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-// slf4j
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 
 /**
@@ -62,7 +60,7 @@ public class ProblemBuilderTest {
     // objet to be tested
     private static ProblemBuilder builder;
     // call from slf4j facade
-    private static final Logger LOGGER = LoggerFactory.getLogger(TesterRunner.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProblemBuilderTest.class);
 
     /** Execute once before any of the test methods in this class. */
     @BeforeClass
@@ -148,7 +146,7 @@ public class ProblemBuilderTest {
         }
     }
 
-    /**======================================== 【useful tools】 ============================================= */
+    /**======================================== useful tools ============================================= */
 
     /** recursively delete a directory and all its sub directories */
     private void deleteRecursiveDirectory(File file) {

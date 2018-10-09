@@ -23,12 +23,11 @@
  */
 package com.ciaoshen.leetcode.helper;
 
-// java.util
 import java.util.Properties;
+
 import java.io.IOException;
-// java.io
 import java.io.InputStream;
-// slf4j
+
 import org.slf4j.Logger;
 
 /**

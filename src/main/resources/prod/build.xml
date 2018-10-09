@@ -35,6 +35,15 @@ SOFTWARE.
     <!-- read properties from a existing file -->
     <property file="problem.properties"/>
     <property url="jar:file:lib/${jar}!/conf/layout.properties" />
+    <loadresource property="problem.pck.subpath">
+        <propertyresource name="problem.pck"/>
+        <filterchain>
+            <tokenfilter>
+                <filetokenizer/>
+                <replacestring from="." to="/"/>
+            </tokenfilter>
+        </filterchain>
+    </loadresource>
 
     <!-- entry points -->
     <property name="builder.pck" value="com.ciaoshen.leetcode.helper"/>
@@ -47,7 +56,7 @@ SOFTWARE.
     ======================================================================
     -->
     <path id="single.jar">
-        <pathelement path="${bin}"/>
+        <pathelement path="${build}"/>
         <pathelement path="${lib}/${jar}/"/>
     </path>
 
@@ -58,14 +67,31 @@ SOFTWARE.
     ======================================================================
     -->
     <!-- generate skeleton source -->
-    <target name="generate">
+    <target name="generate" depends="check.old, choice, do.generate"/>
+
+    <target name="check.old">
+        <available file="${src}/${problem.pck.subpath}/${problem.name}" type="dir" property="old.exists"/>
+        <echo>${src}/${problem.pck.subpath}/${problem.name} exists? ${old.exists}</echo>
+    </target>
+
+    <target name="choice" if="old.exists">
+        <input message="Old ${problem.name} solutions exists. Do you want to delete all previous works of ${problem.name} ?"
+               validargs="y,n"
+               addproperty="still.generate"/>
+        <condition property="generate.abort">
+            <equals arg1="n" arg2="${still.generate}"/>
+        </condition>
+    </target>
+
+    <target name="do.generate">
+        <fail if="generate.abort">Generate operation aborted by user.</fail>
         <echo>problem.name = ${problem.name}</echo>
         <java classname="${main.entry}">
             <arg value="${basedir}"/>
-            <arg value="${problem.name}"/> <!-- I can give ProblemBuilder other resources -->
+            <arg value="${problem.name}"/>
             <arg value="${problem.pck}"/>
             <arg value="${problem.util}"/>
-            <arg value="${problem.members}"/> <!-- I can give ProblemBuilder other resources -->
+            <arg value="${problem.members}"/>
             <classpath refid="single.jar"/>
         </java>
         <echo>Problem ${problem.name} generated! </echo>
@@ -74,12 +100,12 @@ SOFTWARE.
     <!-- compile solutions -->
     <target name="compile">
         <echo>Compile source code for problem ${problem.name} ... </echo>
-        <mkdir dir="${bin}"/>
-        <javac destdir="${bin}" srcdir="${src}" debug="on" includeantruntime="false">
+        <mkdir dir="${build}"/>
+        <javac destdir="${build}" srcdir="${src}" debug="on" includeantruntime="false">
             <include name="**/${problem.name}/*.java"/>
             <classpath refid="single.jar"/>
         </javac>
-        <javac destdir="${bin}" srcdir="${test.src}" debug="on" includeantruntime="false">
+        <javac destdir="${build}" srcdir="${test.src}" debug="on" includeantruntime="false">
             <include name="**/${problem.name}/*.java"/>
             <classpath refid="single.jar"/>
         </javac>
@@ -102,16 +128,10 @@ SOFTWARE.
           <equals arg1="n" arg2="${do.delete}"/>
         </condition>
         <fail if="do.abort">Delete operation aborted by user.</fail>
-        <delete includeemptydirs="true">
-            <fileset dir="${bin}">
-                <include name="**/${problem.name}/"/>
-            </fileset>
-            <fileset dir="${src}">
-                <include name="**/${problem.name}/"/>
-            </fileset>
-            <fileset dir="${test.src}">
-                <include name="**/${problem.name}/"/>
-            </fileset>
+        <delete includeemptydirs="true" failonerror="false">
+            <fileset dir="${build}" includes="**/${problem.name}/"/>
+            <fileset dir="${src}" includes="**/${problem.name}/"/>
+            <fileset dir="${test.src}" includes="**/${problem.name}/"/>
         </delete>
     </target>
 </project>

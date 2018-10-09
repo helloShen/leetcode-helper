@@ -22,7 +22,9 @@
  * SOFTWARE.
  */
 package com.ciaoshen.leetcode.util;
-import java.util.*;
+
+import java.util.List;
+import java.util.ArrayList;
 
 
 /**

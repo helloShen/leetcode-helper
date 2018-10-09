@@ -7,7 +7,4 @@ os:
 - windows
 
 script:
-- ant test
-- ant test.jar
-- ant release
-- ant clean.all
+- ant test.install

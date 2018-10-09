@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 package com.ciaoshen.leetcode.helper;
-// java.util
+
 import java.util.List;
 import java.util.Properties;
 import java.util.ArrayList;
 import java.util.Arrays;
-// java.io
+
 import java.io.InputStream;
 import java.io.IOException;
-// slf4j
+
 import org.slf4j.Logger;
 
 

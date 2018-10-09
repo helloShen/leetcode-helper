@@ -1,11 +1,10 @@
 package com.ciaoshen.leetcode.util;
 
-// JUnit & hamcrest 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
-// slf4j
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,15 +1,14 @@
 package com.ciaoshen.leetcode.util;
 
-// java.util
 import java.util.Deque;
 import java.util.List;
 import java.util.LinkedList;
-// JUnit & hamcrest 
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
-// slf4j
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -23,7 +23,6 @@
  */
 
 package com.ciaoshen.leetcode.util;
-import java.util.*;
 
 /**
  * The random linked list is a singly linked list given 
