@@ -8,19 +8,19 @@
 **leetcode-helper** is a single-jar library that liberate you from setting up solution-test scaffold for each problem. Generate solution/test skeletons, compile, test by commands on one line. `Junit 4`, `log4j`, `slf4j` are integrated. `com.ciaoshen.leetcode.util` package provide simplest implementations for 7 commonly used data structures such as `TreeNode`, `ListNode`, etc.
 
 ### Configure a problem
-![leetcode-helper-config](src/main/resources/gif/leetcode-helper-config.gif)
+![leetcode-helper-config](src/main/resources/dev/gif/leetcode-helper-config.gif)
 
 ### Command on one line to generate Solution/Test skeleton
-![leetcode-helper-generate](src/main/resources/gif/leetcode-helper-generate.gif)
+![leetcode-helper-generate](src/main/resources/dev/gif/leetcode-helper-generate.gif)
 
 The generated skeletons:
-![leetcode-helper-skeleton](src/main/resources/gif/leetcode-helper-skeleton.gif)
+![leetcode-helper-skeleton](src/main/resources/dev/gif/leetcode-helper-skeleton.gif)
 
 ### Commend on one line to compile and run JUnit tests
-![leetcode-helper-compile-test](src/main/resources/gif/leetcode-helper-compile-test.gif)
+![leetcode-helper-compile-test](src/main/resources/dev/gif/leetcode-helper-compile-test.gif)
 
 ### Commend on one line to remove sources
-![leetcode-helper-clean](src/main/resources/gif/leetcode-helper-clean.gif)
+![leetcode-helper-clean](src/main/resources/dev/gif/leetcode-helper-clean.gif)
 
 
 
