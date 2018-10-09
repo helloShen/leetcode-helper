@@ -27,9 +27,9 @@ The generated skeletons:
 # The newest version is v0.55
 ![travis](https://travis-ci.com/helloShen/leetcode-helper.svg?branch=master)
 
-* [leetcode-helper-v0.55.tar](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.55.tar)
-* [leetcode-helper-v0.55.tar.gz](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.55.tar.gz)
-* [leetcode-helper-v0.55.zip](https://github.com/helloShen/leetcode-helper/blob/master/release/leetcode-helper-v0.55.zip)
+* [leetcode-helper-v0.55.tar](https://github.com/helloShen/leetcode-helper/releases/download/v0.55/leetcode-helper-v0.55.tar)
+* [leetcode-helper-v0.55.tar.gz](https://github.com/helloShen/leetcode-helper/releases/download/v0.55/leetcode-helper-v0.55.tar.gz)
+* [leetcode-helper-v0.55.zip](https://github.com/helloShen/leetcode-helper/releases/download/v0.55/leetcode-helper-v0.55.zip)
 
 
 ### Updates
