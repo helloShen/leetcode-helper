@@ -84,7 +84,7 @@ https://stackoverflow.com/questions/10523708/why-does-the-cmd-exe-shell-on-windo
      
 
 13. `v0.55-sh` 再加几个可执行shell脚本。`bin/`底下是可执行shell脚本，`lib/`底下是`.jar`库。具体参考`ant`和`maven`发布包的构架。
-    * 把`build.xml`的工作分摊到`boot`,`compile`,`test`,`clean`4个程序里。
+    * 把`build.xml`的工作分摊到`generate`,`compile`,`test`,`clean`4个程序里。
     * (DONE) 看一下`ANT_HOME`是怎么回事。考虑一下像`ant`这样发布，我的包放在`usr/local`目录底下。`leetboot`到处可以运行。（不需要这么麻烦，我要彻底扁平化，解压以后, 全部在根目录底下）
     * Windows底下可能是`.bat`批处理文件
     * (DONE) 测试包可以分开发布，单独`zip`包。用户软件出问题可以让他运行测试包，把错误发过来。（我不需要发布测试包）
@@ -92,8 +92,11 @@ https://stackoverflow.com/questions/10523708/why-does-the-cmd-exe-shell-on-windo
     * (DONE) WAR部署模块了解下（我不是网络项目，不需要打包成WAR）
 
 14. (DONE) `com.ciaoshen.leetcode.util`加一个`Node`。#426. Convert Binary Search Tree to Sorted Doubly Linked List
+https://stackoverflow.com/questions/1880198/how-to-execute-shell-command-in-javascript
 
-15. 推广项目：leetcode, 知乎，一亩三分地
+15. (DONE - 放弃。浏览器调用本地shell脚本，需要用户安装nodejs + babel，对用户太不友好。) 考虑用javascript在leetcode网页上加个按钮。抓取问题信息调用`leetcode-helper`创建项目骨架。 
+
+16. 推广项目：leetcode, 知乎，一亩三分地
 
 22. 写一篇”怎么用ClassLoader从classpath读取资源“
 https://stackoverflow.com/questions/6608795/what-is-the-difference-between-class-getresource-and-classloader-getresource
@@ -150,5 +153,3 @@ https://cloud.tencent.com/developer/article/1173354
 javac -encoding utf-8 MyClass.java
 ```
 https://blog.csdn.net/Leytton/article/details/52740171
-
-31. 考虑用javascript在leetcode网页上加个按钮。抓取问题信息调用`leetcode-helper`创建项目骨架。

@@ -321,7 +321,14 @@ SOFTWARE.
     ======================================================================
     -->
     <target name="test.install" depends="unarchieve">
-        <exec executable="test"/>
+        <condition property="isWindows">
+            <os family="windows"/>
+        </condition>
+        <condition property="isUnix">
+            <os family="unix"/>
+        </condition>
+        <antcall target="test.install.windows"/>
+        <antcall target="test.install.unix"/>
         <available file="${install}/${src}/${problem.name}" type="dir" property="generate.fail"/>
         <available file="${install}/${src}/${problem.name}/Solution.java" property="generate.fail"/>
         <available file="${install}/${src}/${problem.name}/Solution1.java" property="generate.fail"/>
@@ -331,7 +338,16 @@ SOFTWARE.
         <fail if="generate.fail">Template not generated correctly!</fail>
         <echo>Template generated correctly!</echo>
         <antcall target="clean.install"/>
+    </target> 
+
+    <target name="test.install.windows" if="isWindows">
+        <exec executable="test.bat"/>
     </target>
+
+    <target name="test.install.unix" if="isUnix">
+        <exec executable="test"/>
+    </target>
+        
     <target name="unarchieve" depends="clean.install">
         <unzip src="${release.dir}/${release.name}.zip" dest="${install}"/>
     </target>

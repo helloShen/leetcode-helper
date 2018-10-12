@@ -1,0 +1,3 @@
+#!/bin/sh
+
+java -cp lib/leetcode-helper.jar com.ciaoshen.leetcode.helper.ProblemBuilder $1
