@@ -4,7 +4,7 @@ install: true
 
 os:
 - linux
-- windows
+#- windows
 
 script:
 - ant test.install
