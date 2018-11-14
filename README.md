@@ -24,18 +24,19 @@ The generated skeletons:
 
 
 
-# The newest version is v0.55
+# The newest version is v0.60
 ![travis](https://travis-ci.com/helloShen/leetcode-helper.svg?branch=master)
 
-* [leetcode-helper-v0.55.tar](https://github.com/helloShen/leetcode-helper/releases/download/v0.55/leetcode-helper-v0.55.tar)
-* [leetcode-helper-v0.55.tar.gz](https://github.com/helloShen/leetcode-helper/releases/download/v0.55/leetcode-helper-v0.55.tar.gz)
-* [leetcode-helper-v0.55.zip](https://github.com/helloShen/leetcode-helper/releases/download/v0.55/leetcode-helper-v0.55.zip)
+* [leetcode-helper-v0.60.tar](https://github.com/helloShen/leetcode-helper/releases/download/v0.6/leetcode-helper-v0.6.tar)
+
+* [leetcode-helper-v0.60.tar.gz](https://github.com/helloShen/leetcode-helper/releases/download/v0.6/leetcode-helper-v0.6.tar.gz)
+* [leetcode-helper-v0.60.zip](https://github.com/helloShen/leetcode-helper/releases/download/v0.6/leetcode-helper-v0.6.zip)
 
 
 ### Updates
-1. Prompt for user input before generating skeleton if previous works for this problem exist.
-2. Add a simple demo for new user to getting started.
-3. Put some effort in continuous integrating and continuous delivery.
+1. add shell script to generate, compile, test leetcode solution just as what ant does.
+2. some other finishing touch.
+3. leetcode-helper project completed.
 
 # Installation
 Unarchieve the `.tar`or `.tar.gz` or `.zip` file. Copy everything in `leetcode-helper-vX.X` folder to your work directory. If your work directory was clean, it will look like,
@@ -495,3 +496,8 @@ Related Problems:
 1. Prompt for user input before generating skeleton if previous works for this problem exist.
 2. Add a simple demo for new user to getting started.
 3. Put some effort in continuous integrating and continuous delivery.
+
+### v0.6
+1. add shell script to generate, compile, test leetcode solution just as what ant does.
+2. some other finishing touch.
+3. leetcode-helper project completed.
