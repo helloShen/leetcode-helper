@@ -71,7 +71,7 @@ https://stackoverflow.com/questions/13846000/file-separators-of-path-name-of-zip
 Windows `cmd.exe`不兼容UNIX风格的斜杠分隔符"/"，必须用`PowerShell`运行，
 https://stackoverflow.com/questions/10523708/why-does-the-cmd-exe-shell-on-windows-fail-with-paths-using-a-forward-slash
 
-12. `v0.55-ant` 完善自动化流程
+12. (DONE) `v0.55` 完善自动化流程 ----------------------------------------[v0.55]
     * (DONE) 利用ant的<junit>task，去掉`TesterRunner`类。发布模板的TesterRunner类不用去掉，我不喜欢log4j自己到默认位置找`log4j.properties`配置文件的方式，很容易出问题。PropertyScanner类可靠地多。
     * (DONE) 清理一下`Tester`类。给每个Solution类加上Logger。
     * (DONE) 项目库和产品库一般是可以混在一起的，但我可以设子目录稍微区分一下。`resources/dev/`和`resources/release/`子目录互为镜像。
@@ -80,13 +80,20 @@ https://stackoverflow.com/questions/10523708/why-does-the-cmd-exe-shell-on-windo
     * (DONE) 加入`demo`样板，用户可以快速上手。
     * (DONE) 生成新问题骨架之前，先检查工作区有没有同一个问题的老代码。避免覆盖掉用户之前的工作。
     * (DONE) 发布包的测试方法可以利用开发时候的单元测试。做法不是测试jar包，而是把jar解压出来测试。具体参考《项目自动化》P92的布局。全部解压到`install/`目录底下。测试完`install/`目录全部清空。
-    * 改完之后，项目布局就是以后可以参考的经典布局。`build.xml`就是以后`build.xml`的模板。
+    * (DONE) 改完之后，项目布局就是以后可以参考的经典布局。`build.xml`就是以后`build.xml`的模板。
      
 
-13. `v0.55-sh` 再加几个可执行shell脚本。`bin/`底下是可执行shell脚本，`lib/`底下是`.jar`库。具体参考`ant`和`maven`发布包的构架。
-    * 把`build.xml`的工作分摊到`generate`,`compile`,`test`,`clean`4个程序里。
+13. (DONE) `v0.60` 再加几个可执行shell脚本。`bin/`底下是可执行shell脚本，`lib/`底下是`.jar`库。具体参考`ant`和`maven`发布包的构架。 -------------------------------------[v0.60]
+    * (DONE) 把`build.xml`的工作分摊到`generate`,`compile`,`run`3个程序里。因为jar内部的文件解压出来会自动将换行符改成空格，就不太好解析。目前的解决办法是把layout.properties再留一份在jar外面，方便读取。但是把配置文件留在打包好的jar外面的方案不太完美。把应该向用户隐藏的配置细节暴露给用户，一来增加了客户使用的难度，第二也不安全。而且用户目录下的layout.properties的内容和jar中的layout.properties内容完全一致，也不方便维护。因此暂不将这些shell脚本包含到发布的`v.60`版本里。只是作为一次尝试留在项目工程目录里。
+    https://stackoverflow.com/questions/10929453/read-a-file-line-by-line-assigning-the-value-to-a-variable
+    https://www.shellscript.sh/case.html
+    https://stackoverflow.com/questions/4774054/reliable-way-for-a-bash-script-to-get-the-full-path-to-itself
+    https://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within/246128#246128
+    https://stackoverflow.com/questions/369758/how-to-trim-whitespace-from-a-bash-variable
+    https://stackoverflow.com/questions/7066063/how-to-read-manifest-mf-file-from-jar-using-bash
+    https://stackoverflow.com/questions/7066063/how-to-read-manifest-mf-file-from-jar-using-bash
     * (DONE) 看一下`ANT_HOME`是怎么回事。考虑一下像`ant`这样发布，我的包放在`usr/local`目录底下。`leetboot`到处可以运行。（不需要这么麻烦，我要彻底扁平化，解压以后, 全部在根目录底下）
-    * Windows底下可能是`.bat`批处理文件
+    * (DONE) Windows底下可能是`.bat`批处理文件
     * (DONE) 测试包可以分开发布，单独`zip`包。用户软件出问题可以让他运行测试包，把错误发过来。（我不需要发布测试包）
     * (DONE) 程序安装软件有Windows系统的NSIS，或者Mac的PackageMaker。（我不安装！这个项目就是以jar库包形式发布，安装对用户是一种负担。）
     * (DONE) WAR部署模块了解下（我不是网络项目，不需要打包成WAR）
@@ -94,33 +101,33 @@ https://stackoverflow.com/questions/10523708/why-does-the-cmd-exe-shell-on-windo
 14. (DONE) `com.ciaoshen.leetcode.util`加一个`Node`。#426. Convert Binary Search Tree to Sorted Doubly Linked List
 https://stackoverflow.com/questions/1880198/how-to-execute-shell-command-in-javascript
 
-15. (DONE - 放弃。浏览器调用本地shell脚本，需要用户安装nodejs + babel，对用户太不友好。) 考虑用javascript在leetcode网页上加个按钮。抓取问题信息调用`leetcode-helper`创建项目骨架。 
+15. (DONE) - 放弃。浏览器调用本地shell脚本，需要用户安装nodejs + babel，对用户太不友好。) 考虑用javascript在leetcode网页上加个按钮。抓取问题信息调用`leetcode-helper`创建项目骨架。 
 
-16. 推广项目：leetcode, 知乎，一亩三分地
+16. (DONE) 推广项目：leetcode, 知乎，一亩三分地
 
-22. 写一篇”怎么用ClassLoader从classpath读取资源“
+101. (DONE) 写一篇”怎么用ClassLoader从classpath读取资源“
 https://stackoverflow.com/questions/6608795/what-is-the-difference-between-class-getresource-and-classloader-getresource
 https://stackoverflow.com/questions/3861989/preferred-way-of-loading-resources-in-java
 
-23. 写一篇关于nio的心得
+102. (DONE) 写一篇关于nio的心得
 
-24. 上传一个通用的ant`build.xml`到代码库。
+103. (DONE) 上传一个通用的ant`build.xml`到代码库。
 
-25. 写一个ant怎么打包jar，tar, tar.gz, zip的笔记,
+104. (DONE) 写一个ant怎么打包jar，tar, tar.gz, zip的笔记,
 https://stackoverflow.com/questions/515428/clean-way-to-combine-multiple-jars-preferably-using-ant
 https://ant.apache.org/manual/Tasks/tar.html
 https://ant.apache.org/manual/Tasks/zip.html
 https://www.pharmasoft.be/7z/
 https://www.zhihu.com/question/26026741
 
-26. log4j最佳实践（或者slf4j + logback）
+105. (DONE) log4j最佳实践（或者slf4j + logback）
 日志库的前世今生
 https://zhuanlan.zhihu.com/p/24272450
 https://zhuanlan.zhihu.com/p/24275518
 lsf4j和log4j的关系（桥接）
 http://blog.51cto.com/woshixy/1371420
 
-27. 记录：怎么在github上面release，打tag, 以及merge pull request
+106. (DONE) 记录：怎么在github上面release，打tag, 以及merge pull request
 https://stackoverflow.com/questions/1028649/how-do-you-rename-a-git-tag/5719854#5719854
 https://stackoverflow.com/questions/18216991/create-a-tag-in-github-repository
 github上怎么删掉前一个commit
@@ -132,24 +139,24 @@ github上上传本地tag
 三种常用的merge策略，1.普通merge 2.压缩路径squash 3.剪枝嫁接rebase
 https://stackoverflow.com/questions/2427238/in-git-what-is-the-difference-between-merge-squash-and-rebase
 
-
-28. properties怎么写多个参数值
+107. (DONE) properties怎么写多个参数值
 https://stackoverflow.com/questions/9737812/properties-file-with-a-list-as-the-value-for-an-individual-key
 
-29. 总结一篇生产环境的布局（最好先参考IDE的默认项目布局）
+108. (DONE) 总结一篇生产环境的布局（最好先参考IDE的默认项目布局）
 一种Java开发技术栈
 https://cloud.tencent.com/developer/article/1173354
 
-
-30. 怎么美化github项目
+109. (DONE) 怎么美化github项目
 * shields.io: https://shields.io/#/
 * travis ci: https://travis-ci.com 
 * gif录屏: https://giphy.com/apps/giphycapture
 
 不错的文章： https://www.jianshu.com/p/ae6749858f28
 
-31. Windows用户编译中文字符：”错误: 编码GBK的不可映射字符”的问题
+110. (DONE) Windows用户编译中文字符：”错误: 编码GBK的不可映射字符”的问题
 ```
 javac -encoding utf-8 MyClass.java
 ```
 https://blog.csdn.net/Leytton/article/details/52740171
+
+111. (DONE) leetcode-helper project completed!

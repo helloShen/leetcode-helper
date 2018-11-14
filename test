@@ -2,4 +2,13 @@
 
 cd install
 ant
+
+### test shell script
+#generate
+#generate
+#generate -name i_love_code
+#compile
+#compile -name i_love_code
+#run
+
 cd ..

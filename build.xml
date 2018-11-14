@@ -230,7 +230,7 @@ SOFTWARE.
         <echo>Installing helper to leetcode java root.</echo>
         <mkdir dir="${deploy.root}"/>
         <copy todir="${deploy.root}">
-            <fileset dir="${prod.res}" includes="*.*"/>
+            <fileset dir="${prod.res}" includes="*.*"/> 
         </copy>
         <mkdir dir="${deploy.root}/${lib}"/>
         <copy file="${jar.file}" todir="${deploy.root}/${lib}"/>
@@ -255,7 +255,7 @@ SOFTWARE.
     ======================================================================
     -->
     <!-- release directory -->
-    <property name="release.version" value="v0.55"/>
+    <property name="release.version" value="v0.6"/>
     <property name="release.dir" value="${release}/${release.version}"/>
     <property name="release.name" value="${library.name}-${release.version}"/>
 
@@ -282,6 +282,7 @@ SOFTWARE.
                 <include name="*.*"/>
                 <include name="LICENSE"/>
             </fileset>
+            <!-- <fileset dir="${prod.res.bin}"/> -->
         </copy>
         <mkdir dir="${release.dir}"/>
     </target>
@@ -329,12 +330,12 @@ SOFTWARE.
         </condition>
         <antcall target="test.install.windows"/>
         <antcall target="test.install.unix"/>
-        <available file="${install}/${src}/${problem.name}" type="dir" property="generate.fail"/>
-        <available file="${install}/${src}/${problem.name}/Solution.java" property="generate.fail"/>
-        <available file="${install}/${src}/${problem.name}/Solution1.java" property="generate.fail"/>
-        <available file="${install}/${src}/${problem.name}/Solution2.java" property="generate.fail"/>
-        <available file="${install}/${src}/${problem.name}/Tester.java" property="generate.fail"/>
-        <available file="${install}/${src}/${problem.name}/TesterRunner.java" property="generate.fail"/>
+        <available file="${install}/${src}/${problem.pck}/${problem.name}" type="dir" property="generate.fail"/>
+        <available file="${install}/${src}/${problem.pck}/${problem.name}/Solution.java" property="generate.fail"/>
+        <available file="${install}/${src}/${problem.pck}/${problem.name}/Solution1.java" property="generate.fail"/>
+        <available file="${install}/${src}/${problem.pck}/${problem.name}/Solution2.java" property="generate.fail"/>
+        <available file="${install}/${src}/${problem.pck}/${problem.name}/Tester.java" property="generate.fail"/>
+        <available file="${install}/${src}/${problem.pck}/${problem.name}/TesterRunner.java" property="generate.fail"/>
         <fail if="generate.fail">Template not generated correctly!</fail>
         <echo>Template generated correctly!</echo>
         <antcall target="clean.install"/>
@@ -350,6 +351,13 @@ SOFTWARE.
         
     <target name="unarchieve" depends="clean.install">
         <unzip src="${release.dir}/${release.name}.zip" dest="${install}"/>
+        <!-- <exec executable="chmod">
+            <arg value="+x"/>
+            <arg value="install/generate"/>
+            <arg value="install/compile"/>
+            <arg value="install/run"/>
+            <arg value="install/clean"/>
+        </exec> -->
     </target>
     
     <target name="clean.install">

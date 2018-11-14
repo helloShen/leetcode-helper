@@ -1,0 +1,117 @@
+#!/bin/sh
+
+##################################################################################
+# MIT License
+
+# Copyright (c) 2018 Wei SHEN 
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+##################################################################################
+
+
+cd `dirname ${0}`
+
+################################################################################
+# PROBLEM PARAMETERS
+################################################################################
+PROBLEM="problem.properties"
+
+basedir=`pwd`
+problem=
+package=
+pckpath=
+library=
+members=
+
+# read properties from problem.properties
+if [[ -f ${PROBLEM} ]]; then
+    echo "Loading properties file: ${PROBLEM}"
+    while IFS='=' read -r key value || [[ -n ${line} ]]; do
+        # shell variable can not contain dot
+        key=`echo ${key} | tr '.' '_'`
+        value=`echo ${value} | xargs`
+        case ${key} in
+            "problem_name")
+                problem=${value}
+                ;;
+            "problem_pck")
+                package=${value}
+                pckpath=`echo ${value} | tr '.' '/'`
+                ;;
+            "problem_util")
+                library=${value}
+                ;;
+            "problem_members")
+                members=${value}
+                ;;
+            "\#*")
+                continue 
+                ;;
+        esac         
+    done < ${PROBLEM}
+fi
+
+# override properties by arguments from command line
+type=none
+for arg in ${@}; do
+    if [ ${type} = "name" ]; then
+        problem=${arg}
+        type=none
+    elif [ ${type} = "pck" ]; then
+        package=${arg}
+        type=none
+    elif [ ${type} = "lib" ]; then
+        library=${arg}
+        type=none
+    elif [ ${arg} = "-name" ]; then
+        type=name
+    elif [ ${arg} = "-pck" ]; then
+        type=pck
+    elif [ ${arg} = "-lib" ]; then
+        type=lib
+    fi
+done
+
+if [[ -n ${members} ]]; then
+    continue;
+else
+    members="//your-method()"
+fi
+
+
+################################################################################
+# PROJECT LAYOUT PARAMETERS
+################################################################################
+build="build"
+lib="lib"
+src="src/main/java"
+test="src/test/java"
+
+
+
+echo "basedir = ${basedir}"
+echo "problem name = ${problem}"
+echo "package name = ${package}"
+echo "package path = ${pckpath}"
+echo "util library = ${library}"
+echo "members = ${members}"
+echo "src = ${src}"
+echo "test = ${test}"
+echo "build = ${build}"
+echo "lib = ${lib}"

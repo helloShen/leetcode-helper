@@ -25,16 +25,7 @@
 ##################################################################################
 
 
-### !!! This file doesn't work correctly
 source init
 
-if [[ ! -d "${build}" ]]; then
-    mkdir ${build}
-fi
-
-files=
-files="${files} $(find "${src}/${pckpath}/${problem}" -name "*.java" -print)"
-files="${files} $(find "${test}/${pckpath}/${problem}" -name "*.java" -print)"
-# echo "files = ${files}"
-
-javac -d "${build}" -cp "${lib}/*:${build}" ${files}
+main="${package}.${problem}.TesterRunner"
+java -cp "${lib}/*:${build}" ${main}
